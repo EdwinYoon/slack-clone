@@ -1,20 +1,11 @@
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import { GraphQLServer } from 'graphql-yoga';
-import { ResolverMap } from './types/RevolserMap';
-// import { User } from './entity/User';
+import { importSchema } from 'graphql-import';
+import { resolvers } from './resolver';
+import * as path from 'path';
 
-const typeDefs = `
-      type Query {
-        hello(name: String): String!
-      }
-    `;
-
-const resolvers: ResolverMap = {
-  Query: {
-    hello: (_, { name }) => `Hello ${name || 'World'}`,
-  },
-};
+const typeDefs = importSchema(path.join(__dirname, './schema.graphql'));
 
 createConnection()
   .then(() => {
