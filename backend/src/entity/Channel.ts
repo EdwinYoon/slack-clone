@@ -5,10 +5,10 @@ import {
   Column,
   BaseEntity,
 } from 'typeorm';
-import { Team } from './Team';
+import Team from './Team';
 
 @Entity()
-export class Channel extends BaseEntity {
+export default class Channel extends BaseEntity {
   @PrimaryGeneratedColumn('uuid') id: number;
 
   @Column() public: boolean;

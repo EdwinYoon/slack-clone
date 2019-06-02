@@ -7,11 +7,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { User } from './User';
-import { Channel } from './Channel';
+import User from './User';
+import Channel from './Channel';
 
 @Entity()
-export class Message extends BaseEntity {
+export default class Message extends BaseEntity {
   @PrimaryGeneratedColumn('uuid') id: string;
 
   @Column('text') text: string;

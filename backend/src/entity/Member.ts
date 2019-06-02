@@ -5,11 +5,11 @@ import {
   Column,
   BaseEntity,
 } from 'typeorm';
-import { User } from './User';
-import { Team } from './Team';
+import User from './User';
+import Team from './Team';
 
 @Entity()
-export class Member extends BaseEntity {
+export default class Member extends BaseEntity {
   @PrimaryGeneratedColumn('uuid') id: string;
 
   @Column()
