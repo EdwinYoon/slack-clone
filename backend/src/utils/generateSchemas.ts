@@ -14,7 +14,6 @@ export default () => {
   const resolvers = glob
     .sync(`${basePath}/**/resolvers.?s`)
     .map(resolver => require(resolver).resolvers);
-  console.log(resolvers);
 
   return makeExecutableSchema({
     typeDefs: mergeTypes(types),

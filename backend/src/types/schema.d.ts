@@ -31,13 +31,25 @@ declare namespace GQL {
 
   interface IMutation {
     __typename: 'Mutation';
-    register: boolean | null;
+    register: IRegisterResponse;
   }
 
   interface IRegisterOnMutationArguments {
     email: string;
     password: string;
     username: string;
+  }
+
+  interface IRegisterResponse {
+    __typename: 'RegisterResponse';
+    errors: Array<IError> | null;
+    approved: boolean | null;
+  }
+
+  interface IError {
+    __typename: 'Error';
+    path: string;
+    message: string;
   }
 }
 

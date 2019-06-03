@@ -8,7 +8,25 @@ export const resolvers: ResolverMap = {
       _,
       { email, password, username }: GQL.IRegisterOnMutationArguments
     ) => {
+      // Check if the requested email exists
+      const duplicateEmail = await User.findOne({ where: { email } });
+
+      // If the email is registered already,
+      if (duplicateEmail) {
+        return {
+          errors: [
+            {
+              path: 'email',
+              message: 'Duplicate Email',
+            },
+          ],
+        };
+      }
+
+      // Hash password
       const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Store user info to DB
       const user = User.create({
         email,
         username,
@@ -16,7 +34,9 @@ export const resolvers: ResolverMap = {
       });
       await user.save();
 
-      return true;
+      return {
+        approved: true,
+      };
     },
   },
 };
