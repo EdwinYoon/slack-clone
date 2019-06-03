@@ -3,9 +3,6 @@ import { ResolverMap } from '../../../types/RevolserMap';
 import { User } from '../../../entity';
 
 export const resolvers: ResolverMap = {
-  Query: {
-    hello: (_, { name }) => `Hello ${name || 'World'}`,
-  },
   Mutation: {
     register: async (
       _,
