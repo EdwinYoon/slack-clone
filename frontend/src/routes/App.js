@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import Main from './Main';
+import { Register } from '../containers/user';
 
 const AppContainer = styled.div`
   width: 100%;
@@ -13,7 +14,8 @@ const AppContainer = styled.div`
 const App = () => (
   <AppContainer>
     <Router>
-      <Route path="/" render={() => <Main />} />
+      <Route exact path="/register" render={() => <Register />} />
+      <Route exact path="/" render={() => <Main />} />
     </Router>
   </AppContainer>
 );
