@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 import { ResolverMap } from '../../../types/RevolserMap';
 import { User } from '../../../entity';
+import { duplicateEmailError } from './registerErrors';
 
 export const resolvers: ResolverMap = {
   Mutation: {
@@ -14,12 +15,7 @@ export const resolvers: ResolverMap = {
       // If the email is registered already,
       if (duplicateEmail) {
         return {
-          errors: [
-            {
-              path: 'email',
-              message: 'Duplicate Email',
-            },
-          ],
+          errors: [duplicateEmailError],
         };
       }
 

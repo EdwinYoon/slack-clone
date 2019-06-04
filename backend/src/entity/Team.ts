@@ -13,6 +13,6 @@ export default class Team extends BaseEntity {
 
   @Column() name: string;
 
-  @OneToMany(type => Channel, channel => channel.id)
+  @OneToMany(() => Channel, channel => channel.id)
   channel: Channel;
 }

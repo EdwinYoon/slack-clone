@@ -13,6 +13,7 @@ export default class Channel extends BaseEntity {
 
   @Column() public: boolean;
 
-  @ManyToOne(type => Team, team => team.id)
+  /** TODO: Channel Name */
+  @ManyToOne(() => Team, team => team.id)
   team: Team;
 }
