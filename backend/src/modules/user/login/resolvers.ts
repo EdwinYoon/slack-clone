@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 import { ResolverMap } from '../../../types/RevolserMap';
 import { User } from '../../../entity';
+import { invalidEmailError, invalidPasswordError } from './loginErrors';
 
 export const resolvers: ResolverMap = {
   Mutation: {
@@ -11,12 +12,7 @@ export const resolvers: ResolverMap = {
       // If No user with the email
       if (!user) {
         return {
-          errors: [
-            {
-              path: 'Login',
-              message: 'Invalid email',
-            },
-          ],
+          errors: [invalidEmailError],
         };
       }
 
@@ -26,12 +22,7 @@ export const resolvers: ResolverMap = {
       // if Invalid
       if (!passwordValidation) {
         return {
-          errors: [
-            {
-              path: 'Login',
-              message: 'Invalid Password',
-            },
-          ],
+          errors: [invalidPasswordError],
         };
       }
 
