@@ -7,6 +7,8 @@ export default class User extends BaseEntity {
 
   @Column({ type: 'text', unique: true }) email: string;
 
+  @Column({ type: 'int', default: 0 }) count: number;
+
   @Column() username: string;
 
   @Column() password: string;
