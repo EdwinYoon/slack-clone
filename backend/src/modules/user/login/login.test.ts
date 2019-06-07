@@ -13,9 +13,7 @@ let conn: Connection;
 beforeAll(async () => {
   conn = await ormConnectionHandler();
 });
-afterAll(async () => {
-  await conn.close();
-});
+afterAll(() => conn.close());
 
 describe('User Login', () => {
   test('Expected a user to login successfully.', async () => {

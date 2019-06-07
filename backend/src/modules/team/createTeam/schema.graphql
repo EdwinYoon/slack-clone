@@ -1,0 +1,8 @@
+type CreateTeamResponse {
+  approved: Boolean
+  errors: [Error!]
+}
+
+type Mutation {
+  createTeam(name: String!): CreateTeamResponse!
+}

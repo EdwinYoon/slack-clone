@@ -31,8 +31,13 @@ declare namespace GQL {
 
   interface IMutation {
     __typename: 'Mutation';
+    createTeam: ICreateTeamResponse;
     login: ILoginResponse;
     register: IRegisterResponse;
+  }
+
+  interface ICreateTeamOnMutationArguments {
+    name: string;
   }
 
   interface ILoginOnMutationArguments {
@@ -46,16 +51,22 @@ declare namespace GQL {
     username: string;
   }
 
-  interface ILoginResponse {
-    __typename: 'LoginResponse';
-    errors: Array<IError> | null;
+  interface ICreateTeamResponse {
+    __typename: 'CreateTeamResponse';
     approved: boolean | null;
+    errors: Array<IError> | null;
   }
 
   interface IError {
     __typename: 'Error';
     path: string;
     message: string;
+  }
+
+  interface ILoginResponse {
+    __typename: 'LoginResponse';
+    errors: Array<IError> | null;
+    approved: boolean | null;
   }
 
   interface IRegisterResponse {
