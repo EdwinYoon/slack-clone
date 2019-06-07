@@ -25,7 +25,7 @@ export const authTokenValidator = async (req: any, res: any, next: any) => {
 
   if (!refreshToken && !accessToken) {
     /** If no token at all, then pass */
-    next();
+    return next();
   }
 
   /** if access token os valid, set userId to req */

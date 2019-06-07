@@ -13,16 +13,17 @@ export default async () => {
   const server = await new GraphQLServer({
     schema,
     context: ({ request, response }: any) => ({ req: request, res: response }),
-    // context: (req: any, res: any) => ({ req, res }),
   });
 
+  // Token Validation Middlewares
   server.express.use(cookieParser());
   server.express.use(authTokenValidator);
+
+  // DB CONNECTION
   await ormConnectionHandler();
 
   const port = process.env.APP_PORT || 4000;
   const app = await server.start({ port });
-
   console.log(`Server is not running at ${port}`);
 
   return app;
