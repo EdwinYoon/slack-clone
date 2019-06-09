@@ -1,0 +1,1 @@
+{"version":3,"file":"resolvers.js","sourceRoot":"","sources":["../../../../src/modules/channel/createChannel/resolvers.ts"],"names":[],"mappings":";;AAEa,QAAA,SAAS,GAAgB;IACpC,KAAK,EAAE;QACL,QAAQ,EAAE,CAAC,CAAC,EAAE,EAAE,QAAQ,EAAE,EAAE,EAAE;YAC5B,OAAO,QAAQ,CAAC;QAClB,CAAC;KACF;IACD,QAAQ,EAAE;QACR,aAAa,EAAE,GAAG,EAAE,GAAE,CAAC;KACxB;CACF,CAAC"}

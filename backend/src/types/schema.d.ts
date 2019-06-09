@@ -22,18 +22,38 @@ declare namespace GQL {
 
   interface IQuery {
     __typename: 'Query';
+    channels: Array<IChannel | null>;
     hello: string;
+  }
+
+  interface IChannelsOnQueryArguments {
+    teamName: string;
   }
 
   interface IHelloOnQueryArguments {
     name?: string | null;
   }
 
+  interface IChannel {
+    __typename: 'Channel';
+    id: string;
+    name: string;
+    isPublic: boolean;
+    team: string;
+  }
+
   interface IMutation {
     __typename: 'Mutation';
+    createChannel: ICreateChannelResponse;
     createTeam: ICreateTeamResponse;
     login: ILoginResponse;
     register: IRegisterResponse;
+  }
+
+  interface ICreateChannelOnMutationArguments {
+    channelName: string;
+    teamName: string;
+    isPublic: boolean;
   }
 
   interface ICreateTeamOnMutationArguments {
@@ -51,8 +71,8 @@ declare namespace GQL {
     username: string;
   }
 
-  interface ICreateTeamResponse {
-    __typename: 'CreateTeamResponse';
+  interface ICreateChannelResponse {
+    __typename: 'CreateChannelResponse';
     approved: boolean | null;
     errors: Array<IError> | null;
   }
@@ -61,6 +81,12 @@ declare namespace GQL {
     __typename: 'Error';
     path: string;
     message: string;
+  }
+
+  interface ICreateTeamResponse {
+    __typename: 'CreateTeamResponse';
+    approved: boolean | null;
+    errors: Array<IError> | null;
   }
 
   interface ILoginResponse {

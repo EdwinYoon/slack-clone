@@ -11,9 +11,10 @@ import Team from './Team';
 export default class Channel extends BaseEntity {
   @PrimaryGeneratedColumn('uuid') id: number;
 
-  @Column() public: boolean;
+  @Column() name: string;
 
-  /** TODO: Channel Name */
-  @ManyToOne(() => Team, team => team.id)
+  @Column({ default: true }) isPublic: boolean;
+
+  @ManyToOne(() => Team, team => team.id, { nullable: false })
   team: Team;
 }
