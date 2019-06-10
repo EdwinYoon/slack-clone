@@ -1,6 +1,6 @@
 import { Team } from '../../../entity';
 import { ResolverMap } from '../../../types/RevolserMap';
-import { duplicateNameError } from './createTeamErrors';
+import { duplicateTeamNameError } from './createTeamErrors';
 
 export const resolvers: ResolverMap = {
   Mutation: {
@@ -10,7 +10,7 @@ export const resolvers: ResolverMap = {
       /** Check if the name already exist, */
       if (duplicateTeamName) {
         return {
-          errors: [duplicateNameError],
+          errors: [duplicateTeamNameError],
         };
       }
 

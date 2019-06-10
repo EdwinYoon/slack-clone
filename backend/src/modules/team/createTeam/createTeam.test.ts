@@ -2,7 +2,7 @@ import { Connection } from 'typeorm';
 import * as faker from 'faker';
 import { ormConnectionHandler, createTeam } from '../../../utils';
 import { Team } from '../../../entity';
-import { duplicateNameError } from './createTeamErrors';
+import { duplicateTeamNameError } from './createTeamErrors';
 
 faker.seed(Date.now() + 5);
 const coolTeamName = `${faker.name.findName()}-${faker.name.findName()}`;
@@ -31,7 +31,7 @@ describe('Create Team', () => {
 
     /** Expected */
     expect(duplicateNameTeamCreation).toEqual({
-      createTeam: { approved: null, errors: [duplicateNameError] },
+      createTeam: { approved: null, errors: [duplicateTeamNameError] },
     });
   });
 });
