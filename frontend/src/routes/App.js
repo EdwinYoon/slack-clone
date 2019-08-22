@@ -16,15 +16,19 @@ const AppContainer = styled.div`
 `;
 
 const App = () => {
-  const [teamName, setTeamName] = useState('');
+  const [team, setTeam] = useState({ name: '', id: '' });
   return (
     <AppContainer>
       <Router>
-        <Route exact path="/signin" render={() => <SignInWorkspace setTeamName={setTeamName} />} />
+        <Route
+          exact
+          path="/signin"
+          render={() => <SignInWorkspace team={team} setTeam={setTeam} />}
+        />
         <Route
           exact
           path="/signin/:teamId"
-          render={props => <SignInUser {...props} teamName={teamName} />}
+          render={props => <SignInUser {...props} team={team} />}
         />
         <Route exact path="/register" render={() => <Register />} />
         <Route exact path="/" render={() => <Main />} />

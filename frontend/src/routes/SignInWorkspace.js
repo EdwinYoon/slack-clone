@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Redirect } from 'react-router-dom';
+import { useLazyQuery } from '@apollo/react-hooks';
+
+import { GET_TEAM_BY_NAME } from '../documents/team';
 
 const SignInWorkspaceWrapper = styled.div`
   flex: 1; /** LAYOUT */
@@ -107,21 +111,50 @@ const Button = styled.button`
   }
 `;
 
-const SignInWorkspace = () => (
-  <SignInWorkspaceWrapper>
-    <div className="title_section">
-      <h1>Sign in to your workpsace</h1>
-      <div className="sub_title">Enter your team name</div>
-    </div>
-    <div className="input_section_wrapper">
-      <div>Your team is</div>
-      <input type="text" placeholder="Your Team Name" />
-    </div>
-    <Button>
-      <div>Continue</div>
-      <i className="fas fa-long-arrow-alt-right fa-2x" />
-    </Button>
-  </SignInWorkspaceWrapper>
-);
+const SignInWorkspace = ({ team, setTeam }) => {
+  const [teamName, setTeamName] = useState('');
+  const [redirect, setRedirect] = useState(false);
+  const [getTeam, { loading }] = useLazyQuery(GET_TEAM_BY_NAME, {
+    onCompleted: (data) => {
+      if (data) {
+        const {
+          getTeamByName: { id, name },
+        } = data;
+        setTeam({ name, id });
+        setRedirect(true);
+      }
+    },
+  });
+
+  if (loading) return <p>Loading ...</p>;
+
+  async function onClickHandler(e) {
+    e.preventDefault();
+    getTeam({ variables: { name: teamName } });
+  }
+
+  function onChange({ target }) {
+    setTeamName(target.value);
+  }
+
+  if (redirect) return <Redirect to={`/signin/${team.id}`} />;
+
+  return (
+    <SignInWorkspaceWrapper>
+      <div className="title_section">
+        <h1>Sign in to your workpsace</h1>
+        <div className="sub_title">Enter your team name</div>
+      </div>
+      <div className="input_section_wrapper">
+        <div>Your team is</div>
+        <input type="text" placeholder="Your Team Name" value={teamName} onChange={onChange} />
+      </div>
+      <Button type="button" onClick={onClickHandler}>
+        <div>Continue</div>
+        <i className="fas fa-long-arrow-alt-right fa-2x" />
+      </Button>
+    </SignInWorkspaceWrapper>
+  );
+};
 
 export default SignInWorkspace;
