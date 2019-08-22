@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import Main from './Main';
 import { Register } from '../containers/user';
-import { SignInWrapper } from '../components/signIn';
 import SignInWorkspace from './SignInWorkspace';
+import SignInUser from './SignInUser';
 
 const AppContainer = styled.div`
   width: 100%;
@@ -15,16 +15,22 @@ const AppContainer = styled.div`
   background-color: #f8f8f8;
 `;
 
-const App = () => (
-  <AppContainer>
-    <Router>
-      <SignInWrapper>
-        <Route exact path="/signin" render={() => <SignInWorkspace />} />
-      </SignInWrapper>
-      <Route exact path="/register" render={() => <Register />} />
-      <Route exact path="/" render={() => <Main />} />
-    </Router>
-  </AppContainer>
-);
+const App = () => {
+  const [teamName, setTeamName] = useState('');
+  return (
+    <AppContainer>
+      <Router>
+        <Route exact path="/signin" render={() => <SignInWorkspace setTeamName={setTeamName} />} />
+        <Route
+          exact
+          path="/signin/:teamId"
+          render={props => <SignInUser {...props} teamName={teamName} />}
+        />
+        <Route exact path="/register" render={() => <Register />} />
+        <Route exact path="/" render={() => <Main />} />
+      </Router>
+    </AppContainer>
+  );
+};
 
 export default App;
