@@ -13,9 +13,9 @@ const MainBody = styled.div`
   border: 1px solid red;
 `;
 
-const Main = () => (
+const Main = ({ team }) => (
   <MainContainer>
-    <SidebarContainer />
+    <SidebarContainer team={team} />
     <MainBody>Main Body</MainBody>
   </MainContainer>
 );

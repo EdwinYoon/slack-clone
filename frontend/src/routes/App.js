@@ -31,7 +31,8 @@ const App = () => {
           render={props => <SignInUser {...props} team={team} />}
         />
         <Route exact path="/register" render={() => <Register />} />
-        <Route exact path="/" render={() => <Main />} />
+        <Route exact path="/workspace" render={() => <Main team={team} setTeam={setTeam} />} />
+        <Route exact path="/" render={() => <div>Main</div>} />
       </Router>
     </AppContainer>
   );
