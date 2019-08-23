@@ -127,8 +127,9 @@ const SignInWorkspace = ({ team, setTeam }) => {
   });
 
   if (loading) return <p>Loading ...</p>;
+  if (redirect) return <Redirect to={`/signin/${team.id}`} />;
 
-  async function onClickHandler(e) {
+  function onClickHandler(e) {
     e.preventDefault();
     getTeam({ variables: { name: teamName } });
   }
@@ -136,8 +137,6 @@ const SignInWorkspace = ({ team, setTeam }) => {
   function onChange({ target }) {
     setTeamName(target.value);
   }
-
-  if (redirect) return <Redirect to={`/signin/${team.id}`} />;
 
   return (
     <SignInWorkspaceWrapper>

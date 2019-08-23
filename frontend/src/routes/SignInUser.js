@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Redirect } from 'react-router-dom';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+import { USER_LOGIN } from '../documents/user';
 
 const SignInUserWrapper = styled.div`
   flex: 1; /** LAYOUT */
@@ -89,23 +93,43 @@ const SignInUserWrapper = styled.div`
   }
 `;
 
-const SignInUser = ({ match, teamName }) => {
-  console.log(match.params);
+const SignInUser = ({ match: { params }, team }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [login, { loading, data }] = useMutation(USER_LOGIN, {
+    onCompleted: ({ login }) => {
+      localStorage.setItem('token', login.token);
+      localStorage.setItem('refresh-token', login.refreshToken);
+    },
+  });
+
+  /** Prevent Url injections || invalid approaches */
+  if (!params.teamId || params.teamId !== team.id) return <Redirect to="/signin" />;
+
+  if (loading) return <div>Loading...</div>;
+
+  function onLogin(e) {
+    e.preventDefault();
+    login({ variables: { email, password } });
+  }
+
   return (
     <SignInUserWrapper>
-      <h1>{`Sign in to ${teamName || 'Team Name'}`}</h1>
+      <h1>{`Sign in to ${team.name || 'Team Name'}`}</h1>
       <div className="sub_title">Enter your Email and Password</div>
       <div className="input_section">
         <div className="input_wrapper">
           <div>Email</div>
-          <input type="text" />
+          <input type="text" value={email} onChange={e => setEmail(e.target.value)} />
         </div>
         <div className="input_wrapper">
           <div>Password</div>
-          <input type="password" />
+          <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
         </div>
       </div>
-      <button type="button">Sign In</button>
+      <button type="button" onClick={onLogin}>
+        Sign In
+      </button>
     </SignInUserWrapper>
   );
 };
