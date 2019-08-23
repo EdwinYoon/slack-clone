@@ -3,6 +3,8 @@ type CreateTeamResponse {
   errors: [Error!]
 }
 
+
+
 type Mutation {
   createTeam(name: String!): CreateTeamResponse!
 }

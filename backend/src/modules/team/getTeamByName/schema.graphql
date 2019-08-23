@@ -1,0 +1,10 @@
+
+type GetTeamByNameResponse {
+    id: String
+    name: String
+    errors: [Error!]
+}
+
+type Query {
+    getTeamByName(name: String!): GetTeamByNameResponse!
+}
