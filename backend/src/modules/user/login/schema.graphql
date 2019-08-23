@@ -1,6 +1,8 @@
 type LoginResponse {
   errors: [Error!]
   approved: Boolean
+  token: String
+  refreshToken: String
 }
 
 type Mutation {

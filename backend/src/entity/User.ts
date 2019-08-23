@@ -1,5 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
-// import { Team } from './Team';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
+import Team from './Team';
+import Channel from './Channel';
 
 @Entity('users')
 export default class User extends BaseEntity {
@@ -12,4 +20,12 @@ export default class User extends BaseEntity {
   @Column() username: string;
 
   @Column() password: string;
+
+  @ManyToMany(() => Team)
+  @JoinTable()
+  teams: Team[];
+
+  @ManyToMany(() => Channel)
+  @JoinTable()
+  channels: Channel[];
 }

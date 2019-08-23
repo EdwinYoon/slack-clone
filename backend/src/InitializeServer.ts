@@ -12,7 +12,9 @@ export default async () => {
 
   const server = await new GraphQLServer({
     schema,
-    context: ({ request, response }: any) => ({ req: request, res: response }),
+    context: ({ request, response }: any) => {
+      return { req: request, res: response, userId: request.userId };
+    },
   });
 
   // Token Validation Middlewares
@@ -23,8 +25,11 @@ export default async () => {
   await ormConnectionHandler();
 
   const port = process.env.APP_PORT || 4000;
-  const app = await server.start({ port });
-  console.log(`Server is not running at ${port}`);
+  const app = await server.start({
+    port,
+    cors: { origin: 'http://localhost:3000' },
+  });
+  console.log(`Server is now running at ${port}`);
 
   return app;
 };

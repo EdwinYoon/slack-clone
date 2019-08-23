@@ -43,6 +43,8 @@ export const resolvers: ResolverMap = {
 
       return {
         approved: true,
+        token: accessToken,
+        refreshToken,
       };
     },
   },

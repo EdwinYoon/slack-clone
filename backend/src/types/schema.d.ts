@@ -23,11 +23,21 @@ declare namespace GQL {
   interface IQuery {
     __typename: 'Query';
     channels: Array<IChannel | null>;
+    messages: Array<IMessage | null>;
+    getTeamByName: IGetTeamByNameResponse;
     hello: string;
   }
 
   interface IChannelsOnQueryArguments {
     teamName: string;
+  }
+
+  interface IMessagesOnQueryArguments {
+    channelId: string;
+  }
+
+  interface IGetTeamByNameOnQueryArguments {
+    name: string;
   }
 
   interface IHelloOnQueryArguments {
@@ -42,9 +52,32 @@ declare namespace GQL {
     team: string;
   }
 
+  interface IMessage {
+    __typename: 'Message';
+    id: string;
+    text: string;
+    team: string;
+    user: string;
+    channel: string;
+  }
+
+  interface IGetTeamByNameResponse {
+    __typename: 'GetTeamByNameResponse';
+    id: string | null;
+    name: string | null;
+    errors: Array<IError> | null;
+  }
+
+  interface IError {
+    __typename: 'Error';
+    path: string;
+    message: string;
+  }
+
   interface IMutation {
     __typename: 'Mutation';
     createChannel: ICreateChannelResponse;
+    sendMessage: ISendMessageResponse;
     createTeam: ICreateTeamResponse;
     login: ILoginResponse;
     register: IRegisterResponse;
@@ -54,6 +87,13 @@ declare namespace GQL {
     channelName: string;
     teamName: string;
     isPublic: boolean;
+  }
+
+  interface ISendMessageOnMutationArguments {
+    userId: string;
+    teamName: string;
+    channelId: string;
+    text: string;
   }
 
   interface ICreateTeamOnMutationArguments {
@@ -77,10 +117,10 @@ declare namespace GQL {
     errors: Array<IError> | null;
   }
 
-  interface IError {
-    __typename: 'Error';
-    path: string;
-    message: string;
+  interface ISendMessageResponse {
+    __typename: 'SendMessageResponse';
+    approved: boolean | null;
+    errors: Array<IError> | null;
   }
 
   interface ICreateTeamResponse {
@@ -93,6 +133,8 @@ declare namespace GQL {
     __typename: 'LoginResponse';
     errors: Array<IError> | null;
     approved: boolean | null;
+    token: string | null;
+    refreshToken: string | null;
   }
 
   interface IRegisterResponse {

@@ -20,13 +20,15 @@ export const generateTokens = (user: User) => {
 };
 
 export const authTokenValidator = async (req: any, res: any, next: any) => {
-  const accessToken = req.cookies['access-token'];
-  const refreshToken = req.cookies['refresh-token'];
+  const accessToken = req.headers['x-token'];
+  const refreshToken = req.headers['x-refresh-token'];
 
   if (!refreshToken && !accessToken) {
     /** If no token at all, then pass */
     return next();
   }
+
+  console.log('is it running?');
 
   /** if access token os valid, set userId to req */
   try {
@@ -53,6 +55,7 @@ export const authTokenValidator = async (req: any, res: any, next: any) => {
     }
     const newTokens = generateTokens(user);
 
+    req.userId = user.id;
     res.cookie('refresh-token', newTokens.refreshToken);
     res.cookie('access-token', newTokens.accessToken);
 
