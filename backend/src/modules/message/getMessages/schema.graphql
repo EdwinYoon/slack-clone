@@ -1,0 +1,11 @@
+type Message {
+  id: String!  
+  text: String!
+  team: String!
+  user: String!
+  channel: String!
+}
+
+type Query {
+  messages(channelId: String!): [Message]!
+}

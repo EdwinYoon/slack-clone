@@ -1,0 +1,8 @@
+type SendMessageResponse {
+  approved: Boolean
+  errors: [Error!]
+}
+
+type Mutation {
+  sendMessage(text: String!, userId: String!, teamId: String!, channelId: String!): SendMessageResponse!
+}
