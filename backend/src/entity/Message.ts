@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import User from './User';
 import Channel from './Channel';
+import Team from './Team';
 
 @Entity()
 export default class Message extends BaseEntity {
@@ -16,9 +17,14 @@ export default class Message extends BaseEntity {
 
   @Column('text') text: string;
 
-  @CreateDateColumn()
-  @UpdateDateColumn()
-  @ManyToOne(() => User)
+  @CreateDateColumn() createdAt: Date;
+  @UpdateDateColumn() updatedAt: Date;
+  @ManyToOne(() => Team, team => team.messages, { nullable: false })
+  team: Team;
+
+  @ManyToOne(() => User, user => user.messages, { nullable: false })
   user: User;
-  @ManyToOne(() => Channel) channel: Channel;
+
+  @ManyToOne(() => Channel, channel => channel.messages, { nullable: false })
+  channel: Channel;
 }

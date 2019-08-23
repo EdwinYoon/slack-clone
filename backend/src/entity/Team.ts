@@ -6,6 +6,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import Channel from './Channel';
+import Message from './Message';
 
 @Entity()
 export default class Team extends BaseEntity {
@@ -13,6 +14,9 @@ export default class Team extends BaseEntity {
 
   @Column() name: string;
 
-  @OneToMany(() => Channel, channel => channel.id)
-  channel: Channel;
+  @OneToMany(() => Channel, channel => channel.team)
+  channels: Channel[];
+
+  @OneToMany(() => Message, message => message.team)
+  messages: Message[];
 }
