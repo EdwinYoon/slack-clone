@@ -36,14 +36,14 @@ const ItemFrame = styled.div`
   }
 `;
 
-const SectionItemList = ({ items, currentSelection, setCurrentSelection }) => (
+const SectionItemList = ({ items, currentChannel, setCurrentChannel }) => (
   <ItemsContainer>
     {items
-      && items.map(({ name, isPublic }) => (
+      && items.map(({ id, name, isPublic }) => (
         <ItemFrame
           key={name + isPublic}
-          selected={currentSelection === name}
-          onClick={() => setCurrentSelection(name)}
+          selected={currentChannel.name === name}
+          onClick={() => setCurrentChannel({ id, name, isPublic })}
         >
           <div className="public-symbol">#</div>
           <div className="item-name">{name}</div>

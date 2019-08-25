@@ -5,6 +5,7 @@ export const GET_CHANNELS = gql`
     channels(teamName: $teamName) {
       id
       name
+      isPublic
     }
   }
 `;

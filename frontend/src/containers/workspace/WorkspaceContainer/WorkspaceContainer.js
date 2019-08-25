@@ -1,17 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 import { WorkspaceHeader } from '../../../components/workspace';
+import WorkspaceInput from '../WorkspaceInput';
+import WorkspaceBody from '../WorkspaceBody';
 
 const Container = styled.div`
   flex: 1;
-  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
 `;
 
-const WorkspaceContainer = ({ isPublic, channelName }) => {
+const WorkspaceContainer = ({ currentChannel }) => {
   console.log('');
   return (
     <Container>
-      <WorkspaceHeader isPublic={isPublic} channelName={channelName} />
+      <WorkspaceHeader currentChannel={currentChannel} />
+      <WorkspaceBody />
+      <WorkspaceInput currentChannel={currentChannel} />
     </Container>
   );
 };

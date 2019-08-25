@@ -47,16 +47,19 @@ const WorkspaceHeaderContainer = styled.div`
   }
 `;
 
-const WorkspaceHeader = ({ isPublic, channelName }) => (
-  <WorkspaceHeaderContainer>
-    <div className="channel_title_section">
-      <div className={`public_indicator ${isPublic && 'alignment'}`}>
-        {isPublic ? '#' : <i className="fas fa-lock fa-xs" />}
+const WorkspaceHeader = ({ currentChannel }) => {
+  const { isPublic, name } = currentChannel;
+  return (
+    <WorkspaceHeaderContainer>
+      <div className="channel_title_section">
+        <div className={`public_indicator ${isPublic && 'alignment'}`}>
+          {isPublic ? '#' : <i className="fas fa-lock fa-xs" />}
+        </div>
+        <div className="channel_title">{name}</div>
       </div>
-      <div className="channel_title">{channelName}</div>
-    </div>
-    <MessageSearch />
-  </WorkspaceHeaderContainer>
-);
+      <MessageSearch />
+    </WorkspaceHeaderContainer>
+  );
+};
 
 export default WorkspaceHeader;

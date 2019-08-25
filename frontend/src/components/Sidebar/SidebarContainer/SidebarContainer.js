@@ -15,22 +15,12 @@ const SidebarOuterContainer = styled.div`
   background-color: #303e4d;
 `;
 
-const SidebarContainer = (props) => {
-  const [redirect, setRedirect] = useState(false);
-
-  useEffect(() => {
-    if (!props.team.name) setRedirect(true);
-  }, []);
-
-  if (redirect) return <Redirect to="/signin" />;
-
-  return (
-    <SidebarOuterContainer>
-      <SidebarHeader title="Neat-Coder" username="Edwin" />
-      <SidebarChannelContainer {...props} />
-      <SidebarMessageContainer {...props} />
-    </SidebarOuterContainer>
-  );
-};
+const SidebarContainer = props => (
+  <SidebarOuterContainer>
+    <SidebarHeader title="Neat-Coder" username="Edwin" />
+    <SidebarChannelContainer {...props} />
+    <SidebarMessageContainer {...props} />
+  </SidebarOuterContainer>
+);
 
 export default SidebarContainer;
