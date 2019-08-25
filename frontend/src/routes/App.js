@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import styled from 'styled-components';
-import Main from './Main';
+import Workspace from './Workspace';
 import { Register } from '../containers/user';
 import SignInWorkspace from './SignInWorkspace';
 import SignInUser from './SignInUser';
@@ -27,11 +27,15 @@ const App = () => {
         />
         <Route
           exact
-          path="/signin/:teamId"
+          path="/signin/:teamName"
           render={props => <SignInUser {...props} team={team} />}
         />
         <Route exact path="/register" render={() => <Register />} />
-        <Route exact path="/workspace" render={() => <Main team={team} setTeam={setTeam} />} />
+        <Route
+          exact
+          path="/workspace/:teamName"
+          render={props => <Workspace {...props} team={team} setTeam={setTeam} />}
+        />
         <Route exact path="/" render={() => <div>Main</div>} />
       </Router>
     </AppContainer>

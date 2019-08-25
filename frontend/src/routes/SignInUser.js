@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
 import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import { USER_LOGIN } from '../documents/user';
 
 const SignInUserWrapper = styled.div`
@@ -93,29 +92,41 @@ const SignInUserWrapper = styled.div`
   }
 `;
 
-const SignInUser = ({ match: { params }, team }) => {
+const SignInUser = ({ match: { params } }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [login, { loading, data }] = useMutation(USER_LOGIN, {
-    onCompleted: ({ login }) => {
-      localStorage.setItem('token', login.token);
-      localStorage.setItem('refresh-token', login.refreshToken);
+  const [workspaceRedirection, setWorkspaceRedirection] = useState(false);
+  const [login, { loading }] = useMutation(USER_LOGIN, {
+    onCompleted: (data) => {
+      if (!data.login.errors) {
+        const { token, refreshToken } = data.login;
+        localStorage.setItem('token', token);
+        localStorage.setItem('refresh-token', refreshToken);
+      }
     },
   });
 
+  // const teamId = localStorage.getItem('teamId');
+  const teamName = localStorage.getItem('teamName');
+
   /** Prevent Url injections || invalid approaches */
-  if (!params.teamId || params.teamId !== team.id) return <Redirect to="/signin" />;
+  if (!params.teamName || params.teamName !== teamName) return <Redirect to="/signin" />;
 
   if (loading) return <div>Loading...</div>;
 
   function onLogin(e) {
     e.preventDefault();
     login({ variables: { email, password } });
+    setEmail('');
+    setPassword('');
+    setWorkspaceRedirection(true);
   }
+
+  if (workspaceRedirection) return <Redirect to={`/workspace/${params.teamName}`} />;
 
   return (
     <SignInUserWrapper>
-      <h1>{`Sign in to ${team.name || 'Team Name'}`}</h1>
+      <h1>{`Sign in to ${params.teamName || 'Team Name'}`}</h1>
       <div className="sub_title">Enter your Email and Password</div>
       <div className="input_section">
         <div className="input_wrapper">

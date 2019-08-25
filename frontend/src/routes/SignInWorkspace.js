@@ -120,6 +120,8 @@ const SignInWorkspace = ({ team, setTeam }) => {
         const {
           getTeamByName: { id, name },
         } = data;
+        localStorage.setItem('teamId', id);
+        localStorage.setItem('teamName', name);
         setTeam({ name, id });
         setRedirect(true);
       }
@@ -127,7 +129,7 @@ const SignInWorkspace = ({ team, setTeam }) => {
   });
 
   if (loading) return <p>Loading ...</p>;
-  if (redirect) return <Redirect to={`/signin/${team.id}`} />;
+  if (redirect) return <Redirect to={`/signin/${team.name}`} />;
 
   function onClickHandler(e) {
     e.preventDefault();
