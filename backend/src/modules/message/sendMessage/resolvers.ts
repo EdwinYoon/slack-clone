@@ -5,7 +5,8 @@ export const resolvers: ResolverMap = {
   Mutation: {
     sendMessage: async (
       _,
-      { text, userId, teamId, channelId }: GQL.ISendMessageOnMutationArguments
+      { text, teamId, channelId }: GQL.ISendMessageOnMutationArguments,
+      { userId }
     ) => {
       console.log('===== User ID ================================= ');
       console.log(userId);
