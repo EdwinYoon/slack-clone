@@ -7,7 +7,7 @@ export const resolvers: ResolverMap = {
   Mutation: {
     register: async (
       _,
-      { email, password, username }: GQL.IRegisterOnMutationArguments
+      { email, password }: GQL.IRegisterOnMutationArguments
     ) => {
       // Check if the requested email exists
       const duplicateEmail = await User.findOne({ where: { email } });
@@ -25,7 +25,6 @@ export const resolvers: ResolverMap = {
       // Store user info to DB
       const user = User.create({
         email,
-        username,
         password: hashedPassword,
       });
       await user.save();

@@ -12,7 +12,11 @@ const ormConnectionHandler = async () => {
     });
   }
 
-  return createConnection({ ...options, name: 'default' });
+  return createConnection({
+    ...options,
+    // dropSchema: true,
+    name: 'default',
+  });
 };
 
 export default ormConnectionHandler;

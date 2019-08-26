@@ -2,17 +2,20 @@ import * as bcrypt from 'bcryptjs';
 import { ResolverMap } from '../../../types/RevolserMap';
 import { User } from '../../../entity';
 import { invalidEmailError, invalidPasswordError } from './loginErrors';
-import { generateTokens } from '../../../utils';
+// import { generateTokens } from '../../../utils';
 
 export const resolvers: ResolverMap = {
   Mutation: {
     login: async (
       _,
       { email, password }: GQL.ILoginOnMutationArguments,
-      { res }
+      { req }
     ) => {
       // Get User from db
-      const user = await User.findOne({ where: { email } });
+      const user = await User.findOne({
+        select: ['id', 'email', 'password'],
+        where: { email },
+      });
 
       // If No user with the email
       if (!user) {
@@ -31,20 +34,14 @@ export const resolvers: ResolverMap = {
         };
       }
 
-      const { refreshToken, accessToken } = generateTokens(user);
-
-      res.cookie('refresh-token', refreshToken, {
-        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-      });
-
-      res.cookie('access-token', accessToken, {
-        expires: new Date(Date.now() + 1000 * 60 * 30),
-      });
+      req.session.userId = user.id;
 
       return {
         approved: true,
-        token: accessToken,
-        refreshToken,
+        user: {
+          id: user.id,
+          email: user.email,
+        },
       };
     },
   },
