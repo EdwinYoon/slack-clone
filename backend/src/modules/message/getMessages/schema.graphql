@@ -1,9 +1,11 @@
+scalar Date
+
 type Message {
   id: String!  
   text: String!
-  team: String!
-  user: String!
-  channel: String!
+  createdAt: Date!
+  updatedAt: Date!
+  user: User
 }
 
 type Query {
