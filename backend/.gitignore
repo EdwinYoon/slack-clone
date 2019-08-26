@@ -9,3 +9,8 @@ temp/
 ormconfig.json
 
 .env
+.env.example
+
+.DS_Store
+
+ormconfigdummy.json
