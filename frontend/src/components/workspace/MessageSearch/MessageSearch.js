@@ -6,7 +6,7 @@ const MessageSearchContainer = styled.div`
   display: flex;
   height: 100%;
   padding: 10px 20px;
-
+  
   @media screen and (max-width: 800px) {
     flex: 1;
     padding: 5px 0px;
@@ -128,12 +128,12 @@ const MessageSearchContainer = styled.div`
 
 const MessageSearch = () => {
   const [expand, setExpand] = useState(false);
-  const [isMobile, setIsMobilel] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const width = document.querySelector('body').offsetWidth;
 
-    setIsMobilel(width <= 800);
+    setIsMobile(width <= 800);
   }, []);
 
   return (
