@@ -25,8 +25,14 @@ const InputWrapper = styled.div`
 const WorkspaceInput = ({ currentChannel }) => {
   const teamId = localStorage.getItem('teamId');
   const [messageText, setMessageText] = useState('');
+  const userId = localStorage.getItem('userId');
   const [sendMessage] = useMutation(SEND_MESSAGE, {
-    variables: { text: messageText, teamId, channelId: currentChannel.id },
+    variables: {
+      text: messageText,
+      userId,
+      teamId,
+      channelId: currentChannel.id,
+    },
   });
 
   function onChange(e) {
@@ -34,8 +40,7 @@ const WorkspaceInput = ({ currentChannel }) => {
   }
 
   function onKeyPress(e) {
-    if (e.which === 13) {
-      console.log('Fire a qeury ');
+    if (e.which === 13 && messageText) {
       sendMessage();
       setMessageText('');
     }
