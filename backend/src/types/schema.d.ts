@@ -3,7 +3,7 @@
 
 declare namespace GQL {
   interface IGraphQLResponseRoot {
-    data?: IQuery | IMutation;
+    data?: IQuery | IMutation | ISubscription;
     errors?: Array<IGraphQLResponseError>;
   }
 
@@ -56,9 +56,15 @@ declare namespace GQL {
     __typename: 'Message';
     id: string;
     text: string;
-    team: string;
-    user: string;
-    channel: string;
+    createdAt: any;
+    updatedAt: any;
+    user: IUser | null;
+  }
+
+  interface IUser {
+    __typename: 'User';
+    id: string;
+    email: string;
   }
 
   interface IGetTeamByNameResponse {
@@ -90,10 +96,10 @@ declare namespace GQL {
   }
 
   interface ISendMessageOnMutationArguments {
-    userId: string;
-    teamName: string;
-    channelId: string;
     text: string;
+    userId: string;
+    teamId: string;
+    channelId: string;
   }
 
   interface ICreateTeamOnMutationArguments {
@@ -108,7 +114,6 @@ declare namespace GQL {
   interface IRegisterOnMutationArguments {
     email: string;
     password: string;
-    username: string;
   }
 
   interface ICreateChannelResponse {
@@ -121,6 +126,7 @@ declare namespace GQL {
     __typename: 'SendMessageResponse';
     approved: boolean | null;
     errors: Array<IError> | null;
+    message: IMessage | null;
   }
 
   interface ICreateTeamResponse {
@@ -133,14 +139,18 @@ declare namespace GQL {
     __typename: 'LoginResponse';
     errors: Array<IError> | null;
     approved: boolean | null;
-    token: string | null;
-    refreshToken: string | null;
+    user: IUser | null;
   }
 
   interface IRegisterResponse {
     __typename: 'RegisterResponse';
     errors: Array<IError> | null;
     approved: boolean | null;
+  }
+
+  interface ISubscription {
+    __typename: 'Subscription';
+    newMessage: IMessage;
   }
 }
 

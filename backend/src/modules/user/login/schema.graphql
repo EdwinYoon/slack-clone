@@ -1,8 +1,12 @@
+type User {
+  id: ID!
+  email: String!
+}
+
 type LoginResponse {
   errors: [Error!]
   approved: Boolean
-  token: String
-  refreshToken: String
+  user: User
 }
 
 type Mutation {

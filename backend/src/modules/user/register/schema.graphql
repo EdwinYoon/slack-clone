@@ -4,5 +4,5 @@ type RegisterResponse {
 }
 
 type Mutation {
-  register(email: String!, password: String!, username: String!): RegisterResponse!
+  register(email: String!, password: String!): RegisterResponse!
 }
