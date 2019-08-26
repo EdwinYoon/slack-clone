@@ -31,23 +31,23 @@ export const resolvers: ResolverMap = {
       _,
       { channelName, teamName, isPublic }: GQL.ICreateChannelOnMutationArguments
     ) => {
-      /** Check if Channel Name exist already */
-      const duplicateChannel = await Channel.findOne({
-        where: { name: channelName },
-      });
+      const team = await Team.findOne({ where: { name: teamName } });
 
-      if (duplicateChannel) {
+      if (!team) {
         return {
-          errors: [duplicateChannelNameError],
+          errors: [wrongTeamNameError],
         };
       }
 
-      /** Check if team name is wrong */
-      const possibleTeamName = await Team.findOne({ name: teamName });
+      /** Check if Channel Name exist already */
+      const existingChannels = await Channel.createQueryBuilder('channel')
+        .innerJoin('channel.team', 'team')
+        .where('team.id = :id', { id: team.id })
+        .getMany();
 
-      if (!possibleTeamName) {
+      if (!existingChannels) {
         return {
-          errors: [wrongTeamNameError],
+          errors: [duplicateChannelNameError],
         };
       }
 
@@ -55,7 +55,7 @@ export const resolvers: ResolverMap = {
       const newChannel = Channel.create({
         name: channelName,
         isPublic,
-        team: possibleTeamName,
+        team,
       });
       await newChannel.save();
 

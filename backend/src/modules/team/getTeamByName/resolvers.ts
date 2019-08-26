@@ -4,7 +4,11 @@ import { noTeamError } from './getTeamByNameError';
 
 export const resolvers: ResolverMap = {
   Query: {
-    getTeamByName: async (_, { name }: GQL.IGetTeamByNameOnQueryArguments) => {
+    getTeamByName: async (
+      _,
+      { name }: GQL.IGetTeamByNameOnQueryArguments,
+      { req }
+    ) => {
       const team = await Team.findOne({ where: { name } });
 
       if (!team) {
@@ -13,6 +17,7 @@ export const resolvers: ResolverMap = {
         };
       }
 
+      req.session.teamId = team.id;
       return team;
     },
   },
