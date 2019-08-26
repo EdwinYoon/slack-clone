@@ -27,7 +27,7 @@ const Workspace = ({ match }) => {
   const [currentChannel, setCurrentChannel] = useState({});
 
   useEffect(() => {
-    if (isEmpty(currentChannel) && data.channels) {
+    if (isEmpty(currentChannel) && data && !loading) {
       setCurrentChannel(data.channels[0]);
     }
   }, [data]);
