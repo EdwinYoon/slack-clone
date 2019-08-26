@@ -99,14 +99,15 @@ const SignInUser = ({ match: { params } }) => {
   const [login, { loading }] = useMutation(USER_LOGIN, {
     onCompleted: (data) => {
       if (!data.login.errors) {
-        const { token, refreshToken } = data.login;
-        localStorage.setItem('token', token);
-        localStorage.setItem('refresh-token', refreshToken);
+        const { approved, user } = data.login;
+
+        localStorage.setItem('userId', user.id);
+
+        if (approved) setWorkspaceRedirection(true);
       }
     },
   });
 
-  // const teamId = localStorage.getItem('teamId');
   const teamName = localStorage.getItem('teamName');
 
   /** Prevent Url injections || invalid approaches */
@@ -119,7 +120,6 @@ const SignInUser = ({ match: { params } }) => {
     login({ variables: { email, password } });
     setEmail('');
     setPassword('');
-    setWorkspaceRedirection(true);
   }
 
   if (workspaceRedirection) return <Redirect to={`/workspace/${params.teamName}`} />;

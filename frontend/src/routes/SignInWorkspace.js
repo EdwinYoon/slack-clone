@@ -111,7 +111,7 @@ const Button = styled.button`
   }
 `;
 
-const SignInWorkspace = ({ team, setTeam }) => {
+const SignInWorkspace = () => {
   const [teamName, setTeamName] = useState('');
   const [redirect, setRedirect] = useState(false);
   const [getTeam, { loading }] = useLazyQuery(GET_TEAM_BY_NAME, {
@@ -122,14 +122,13 @@ const SignInWorkspace = ({ team, setTeam }) => {
         } = data;
         localStorage.setItem('teamId', id);
         localStorage.setItem('teamName', name);
-        setTeam({ name, id });
         setRedirect(true);
       }
     },
   });
 
   if (loading) return <p>Loading ...</p>;
-  if (redirect) return <Redirect to={`/signin/${team.name}`} />;
+  if (redirect) return <Redirect to={`/signin/${teamName}`} />;
 
   function onClickHandler(e) {
     e.preventDefault();
