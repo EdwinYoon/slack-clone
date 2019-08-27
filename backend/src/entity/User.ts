@@ -3,13 +3,9 @@ import {
   PrimaryGeneratedColumn,
   Column,
   BaseEntity,
-  ManyToMany,
-  JoinTable,
   OneToMany,
 } from 'typeorm';
-import Team from './Team';
-import Channel from './Channel';
-import Message from './Message';
+import { TeamMember, Message, ChannelMember } from '.';
 
 @Entity('users')
 export default class User extends BaseEntity {
@@ -19,14 +15,12 @@ export default class User extends BaseEntity {
 
   @Column({ select: false }) password: string;
 
-  @ManyToMany(() => Team)
-  @JoinTable()
-  teams: Team[];
-
-  @ManyToMany(() => Channel)
-  @JoinTable()
-  channels: Channel[];
-
   @OneToMany(() => Message, message => message.user)
   messages: Message[];
+
+  @OneToMany(() => TeamMember, teamMember => teamMember.user)
+  teamMember: TeamMember[];
+
+  @OneToMany(() => ChannelMember, channelMember => channelMember.user)
+  channelMember: ChannelMember[];
 }

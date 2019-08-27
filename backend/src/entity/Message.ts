@@ -7,9 +7,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import User from './User';
-import Channel from './Channel';
-import Team from './Team';
+import { User, Channel, Team } from '.';
 
 @Entity()
 export default class Message extends BaseEntity {

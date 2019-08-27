@@ -6,8 +6,7 @@ import {
   BaseEntity,
   OneToMany,
 } from 'typeorm';
-import Team from './Team';
-import Message from './Message';
+import { Team, Message, ChannelMember } from '.';
 
 @Entity()
 export default class Channel extends BaseEntity {
@@ -22,4 +21,7 @@ export default class Channel extends BaseEntity {
 
   @OneToMany(() => Message, message => message.channel)
   messages: Message[];
+
+  @OneToMany(() => ChannelMember, channelMember => channelMember.channel)
+  channelMember: ChannelMember[];
 }
