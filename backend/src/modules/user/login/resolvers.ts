@@ -1,14 +1,17 @@
 import * as bcrypt from 'bcryptjs';
 import { ResolverMap } from '../../../types/RevolserMap';
-import { User } from '../../../entity';
-import { invalidEmailError, invalidPasswordError } from './loginErrors';
-// import { generateTokens } from '../../../utils';
+import { User, TeamMember } from '../../../entity';
+import {
+  invalidEmailError,
+  invalidPasswordError,
+  notAMemberError,
+} from './loginErrors';
 
 export const resolvers: ResolverMap = {
   Mutation: {
     login: async (
       _,
-      { email, password }: GQL.ILoginOnMutationArguments,
+      { email, password, teamId }: GQL.ILoginOnMutationArguments,
       { req }
     ) => {
       // Get User from db
@@ -31,6 +34,16 @@ export const resolvers: ResolverMap = {
       if (!passwordValidation) {
         return {
           errors: [invalidPasswordError],
+        };
+      }
+
+      const teamMember = TeamMember.findOne({
+        where: { userId: user.id, teamId },
+      });
+
+      if (!teamMember) {
+        return {
+          errors: [notAMemberError],
         };
       }
 
