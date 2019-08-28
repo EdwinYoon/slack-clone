@@ -1,0 +1,13 @@
+type Team {
+    id: String!
+    name: String!
+}
+
+type SigninWorkspaceResponse {
+    team: Team
+    errors: [Error!]
+}
+
+type Mutation {
+    signinWorkspace(name: String!): SigninWorkspaceResponse!
+}

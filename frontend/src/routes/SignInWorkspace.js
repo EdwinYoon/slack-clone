@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
-import { useLazyQuery } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 
-import { GET_TEAM_BY_NAME } from '../documents/team';
+import { SIGN_IN_WORKSPACE } from '../documents/team';
 
 const SignInWorkspaceWrapper = styled.div`
   flex: 1; /** LAYOUT */
@@ -114,27 +114,36 @@ const Button = styled.button`
 const SignInWorkspace = () => {
   const [teamName, setTeamName] = useState('');
   const [redirect, setRedirect] = useState(false);
-  const [getTeam, { loading }] = useLazyQuery(GET_TEAM_BY_NAME, {
-    onCompleted: (data) => {
-      if (data) {
-        const {
-          getTeamByName: { id, name },
-        } = data;
-        localStorage.setItem('teamId', id);
-        localStorage.setItem('teamName', name);
-        setRedirect(true);
-      }
-    },
+  const [getTeam, { data, loading }] = useMutation(SIGN_IN_WORKSPACE, {
+    variables: { name: teamName },
   });
+
+  useEffect(() => {
+    if (data && !redirect) {
+      const {
+        signinWorkspace: { team, errors },
+      } = data;
+      if (!team) {
+        console.log(errors);
+      } else {
+        localStorage.setItem('teamId', team.id);
+        localStorage.setItem('teamName', team.name);
+        setRedirect(true);
+        /** Error Handling here */
+      }
+    }
+  }, [data]);
 
   if (loading) return <p>Loading ...</p>;
   if (redirect) return <Redirect to={`/signin/${teamName}`} />;
 
   function onClickHandler(e) {
     e.preventDefault();
-    getTeam({ variables: { name: teamName } });
+    getTeam();
+    // setTeamName('');
   }
 
+  // console.log(teamName);
   function onChange({ target }) {
     setTeamName(target.value);
   }

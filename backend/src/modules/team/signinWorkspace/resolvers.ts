@@ -1,13 +1,12 @@
 import { Team } from '../../../entity';
 import { ResolverMap } from '../../../types/RevolserMap';
-import { noTeamError } from './getTeamByNameError';
+import { noTeamError } from './signinWorkspaceError';
 
 export const resolvers: ResolverMap = {
-  Query: {
-    getTeamByName: async (
+  Mutation: {
+    signinWorkspace: async (
       _,
-      { name }: GQL.IGetTeamByNameOnQueryArguments,
-      { req }
+      { name }: GQL.ISigninWorkspaceOnMutationArguments
     ) => {
       const team = await Team.findOne({ where: { name } });
 
@@ -17,8 +16,9 @@ export const resolvers: ResolverMap = {
         };
       }
 
-      req.session.teamId = team.id;
-      return team;
+      return {
+        team,
+      };
     },
   },
 };

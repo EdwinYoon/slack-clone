@@ -1,1 +1,1 @@
-export { GET_TEAM_BY_NAME } from './queries';
+export { SIGN_IN_WORKSPACE } from './mutations';

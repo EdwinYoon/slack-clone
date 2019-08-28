@@ -1,4 +1,4 @@
 export const noTeamError = {
-  path: 'Sign In To workplace',
+  path: 'signinWorkspace',
   message: 'No Team by that name',
 };
