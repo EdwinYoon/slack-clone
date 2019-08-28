@@ -1,0 +1,12 @@
+type UserResponse {
+    userId: String!
+    username: String!
+}
+type getUsersByTeamResponse {
+    users: [UserResponse!]
+    errors: [Error!]
+}
+
+type Query {
+    getUsersByTeam(teamId: String!): getUsersByTeamResponse!
+}
