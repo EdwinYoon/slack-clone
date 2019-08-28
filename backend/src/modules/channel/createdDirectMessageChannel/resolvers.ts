@@ -1,0 +1,88 @@
+import { getManager } from 'typeorm';
+import { ResolverMap } from '../../../types/RevolserMap';
+import { Team, TeamMember, Channel, ChannelMember } from '../../../entity';
+import {
+  invalidTeamError,
+  invalidUserError,
+  invalidChannelNameError,
+} from './createDirectMessageChannelError';
+import { unexpectedError } from '../../common/unexpectedError';
+
+export const resolvers: ResolverMap = {
+  Mutation: {
+    createDirectMessageChannel: async (
+      _,
+      {
+        teamId,
+        users,
+        channelName,
+        isPublic,
+      }: GQL.ICreateDirectMessageChannelOnMutationArguments
+    ) => {
+      try {
+        const isTeamValid = await Team.findOne({ where: { id: teamId } });
+
+        /** If the team is not found  */
+        if (!isTeamValid) {
+          return {
+            errors: [invalidTeamError],
+          };
+        }
+
+        const teamUsers = users.reduce((acc: [], val): any => {
+          return [...acc, { ...val, teamId }];
+        }, []);
+        const memberInfo = await TeamMember.find({ where: teamUsers });
+
+        /** If everyone is not in the team  */
+        if (memberInfo.length !== teamUsers.length) {
+          return {
+            errors: [invalidUserError],
+          };
+        }
+
+        const isChannelValid = await Channel.findOne({
+          where: { name: channelName },
+        });
+
+        /** If channel name is taken already */
+        if (isChannelValid) {
+          return {
+            errors: [invalidChannelNameError],
+          };
+        }
+        await getManager().transaction(async transactionalEntityManager => {
+          const newChannel = Channel.create({
+            team: isTeamValid,
+            name: channelName,
+            isPublic,
+          });
+
+          /** Create a channel first */
+          await transactionalEntityManager.save(newChannel);
+
+          /** Make the data as we insert them */
+          const channelUsers = users.reduce((acc: [], val: any): any => {
+            return [...acc, { userId: val.userId, channelId: newChannel.id }];
+          }, []);
+
+          /** Insert multiple rows at once */
+          await transactionalEntityManager
+            .getRepository(ChannelMember)
+            .createQueryBuilder()
+            .insert()
+            .values(channelUsers)
+            .execute();
+        });
+
+        return {
+          approved: true,
+        };
+      } catch {
+        return {
+          errors: [unexpectedError('createDirectMessageChannel')],
+        };
+      }
+    },
+  },
+};

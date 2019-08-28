@@ -1,0 +1,12 @@
+type createDirectMessageChannelResponse {
+    approved: Boolean
+    errors: [Error!]
+}
+input Users {
+    userId: String!
+    username: String!
+}
+
+type Mutation {
+    createDirectMessageChannel(teamId:String!, users: [Users]!, channelName: String!, isPublic: Boolean!): createDirectMessageChannelResponse!
+}

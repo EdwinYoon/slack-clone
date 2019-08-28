@@ -5,7 +5,6 @@ export const resolvers: ResolverMap = {
   Subscription: {
     newMessage: {
       subscribe: (_, __, { pubsub }) => {
-        console.log('hit11111111');
         return pubsub.asyncIterator(NEW_MESSAGE_SUBSCRIPTION);
       },
     },
