@@ -1,8 +1,9 @@
 import { getManager } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { ResolverMap } from '../../../types/RevolserMap';
-import { User, TeamMember } from '../../../entity';
+import { User, TeamMember, ChannelMember, Channel } from '../../../entity';
 import { duplicateEmailError } from './registerErrors';
+import { unexpectedError } from '../../common/unexpectedError';
 
 export const resolvers: ResolverMap = {
   Mutation: {
@@ -26,34 +27,50 @@ export const resolvers: ResolverMap = {
       try {
         /**  If one of those create have failed, we rollback to before */
 
-        await getManager().transaction(async transactionalEntityManager => {
-          // Store user info to DB
-          const user = User.create({
-            email,
-            password: hashedPassword,
-          });
-          await transactionalEntityManager.save(user);
+        return await getManager().transaction(
+          async transactionalEntityManager => {
+            // Store user info to DB
+            const user = User.create({
+              email,
+              password: hashedPassword,
+            });
+            await transactionalEntityManager.save(user);
 
-          const teamMember = TeamMember.create({
-            userId: user.id,
-            teamId,
-            username: user.email,
-          });
-          await transactionalEntityManager.save(teamMember);
-        });
+            /** Assign user as team member */
+            const teamMember = TeamMember.create({
+              userId: user.id,
+              teamId,
+              username: user.email,
+            });
+            await transactionalEntityManager.save(teamMember);
 
-        /** If everything went well, approve it  */
-        return {
-          approved: true,
-        };
+            const genenralChannel = await Channel.findOne({
+              where: { name: 'general' },
+            });
+
+            if (!genenralChannel) {
+              return {
+                errors: [unexpectedError('registerToTeam')],
+              };
+            }
+
+            /** Assign user the default channel */
+            const newChannelMember = await ChannelMember.create({
+              userId: user.id,
+              channelId: genenralChannel.id,
+            });
+
+            await transactionalEntityManager.save(newChannelMember);
+
+            /** If everything went well, approve it  */
+            return {
+              approved: true,
+            };
+          }
+        );
       } catch {
         return {
-          errors: [
-            {
-              path: 'Register to Team',
-              message: 'something Went wrong',
-            },
-          ],
+          errors: [unexpectedError('registerToTeam')],
         };
       }
     },
