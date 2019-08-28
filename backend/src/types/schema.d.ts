@@ -83,15 +83,23 @@ declare namespace GQL {
   interface IMutation {
     __typename: 'Mutation';
     createChannel: ICreateChannelResponse;
+    createDirectMessageChannel: ICreateDirectMessageChannelResponse;
     sendMessage: ISendMessageResponse;
     createTeam: ICreateTeamResponse;
     login: ILoginResponse;
-    register: IRegisterResponse;
+    registerToTeam: IRegisterResponse;
   }
 
   interface ICreateChannelOnMutationArguments {
     channelName: string;
     teamName: string;
+    isPublic: boolean;
+  }
+
+  interface ICreateDirectMessageChannelOnMutationArguments {
+    teamId: string;
+    users: Array<IUsers | null>;
+    channelName: string;
     isPublic: boolean;
   }
 
@@ -104,20 +112,34 @@ declare namespace GQL {
 
   interface ICreateTeamOnMutationArguments {
     name: string;
+    isPublic: boolean;
   }
 
   interface ILoginOnMutationArguments {
     email: string;
     password: string;
+    teamId: string;
   }
 
-  interface IRegisterOnMutationArguments {
+  interface IRegisterToTeamOnMutationArguments {
     email: string;
     password: string;
+    teamId: string;
   }
 
   interface ICreateChannelResponse {
     __typename: 'CreateChannelResponse';
+    approved: boolean | null;
+    errors: Array<IError> | null;
+  }
+
+  interface IUsers {
+    userId: string;
+    username: string;
+  }
+
+  interface ICreateDirectMessageChannelResponse {
+    __typename: 'createDirectMessageChannelResponse';
     approved: boolean | null;
     errors: Array<IError> | null;
   }

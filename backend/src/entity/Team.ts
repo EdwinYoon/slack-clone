@@ -5,8 +5,6 @@ import {
   BaseEntity,
   OneToMany,
 } from 'typeorm';
-// import Channel from './Channel';
-// import Message from './Message';
 import { TeamMember, Channel, Message } from '.';
 
 @Entity()
@@ -14,6 +12,7 @@ export default class Team extends BaseEntity {
   @PrimaryGeneratedColumn('uuid') id: string;
 
   @Column() name: string;
+  @Column() isPublic: boolean;
 
   @OneToMany(() => Channel, channel => channel.team)
   channels: Channel[];
