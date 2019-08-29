@@ -7,6 +7,15 @@ input Users {
     username: String!
 }
 
+# input createDirectMessageChannelInput {
+#     teamId: String!
+#     users: [Users!]!
+#     channelName: String!
+#     isPublic: Boolean!
+#     channelType: String!
+# }
+
 type Mutation {
     createDirectMessageChannel(teamId:String!, users: [Users]!, channelName: String!, isPublic: Boolean!): createDirectMessageChannelResponse!
+    # createDirectMessageChannel(args: createDirectMessageChannelInput): createDirectMessageChannelResponse!
 }

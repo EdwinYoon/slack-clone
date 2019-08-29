@@ -2,7 +2,7 @@ import { getManager } from 'typeorm';
 import { Team, Channel } from '../../../entity';
 import { ResolverMap } from '../../../types/RevolserMap';
 import { duplicateTeamNameError } from './createTeamErrors';
-import { unexpectedError } from '../../common/unexpectedError';
+import { unexpectedError } from '../../common/sharedError';
 
 export const resolvers: ResolverMap = {
   Mutation: {

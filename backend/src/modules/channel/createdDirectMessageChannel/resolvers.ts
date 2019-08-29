@@ -1,12 +1,12 @@
 import { getManager } from 'typeorm';
 import { ResolverMap } from '../../../types/RevolserMap';
 import { Team, TeamMember, Channel, ChannelMember } from '../../../entity';
+import { invalidChannelNameError } from './createDirectMessageChannelError';
 import {
+  unexpectedError,
   invalidTeamError,
   invalidUserError,
-  invalidChannelNameError,
-} from './createDirectMessageChannelError';
-import { unexpectedError } from '../../common/unexpectedError';
+} from '../../common/sharedError';
 
 export const resolvers: ResolverMap = {
   Mutation: {
@@ -37,7 +37,7 @@ export const resolvers: ResolverMap = {
         /** If everyone is not in the team  */
         if (memberInfo.length !== teamUsers.length) {
           return {
-            errors: [invalidUserError],
+            errors: [invalidUserError('createDirectMessageChannel')],
           };
         }
 
@@ -56,6 +56,7 @@ export const resolvers: ResolverMap = {
             team: isTeamValid,
             name: channelName,
             isPublic,
+            channelType: 'direct',
           });
 
           /** Create a channel first */

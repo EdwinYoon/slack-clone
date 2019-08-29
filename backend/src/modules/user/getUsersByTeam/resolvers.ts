@@ -1,7 +1,7 @@
 import { ResolverMap } from '../../../types/RevolserMap';
 import { Team, TeamMember } from '../../../entity';
-import { unexpectedError } from '../../common/unexpectedError';
-import { invalidTeamError } from './getUsersByTeamError';
+import { unexpectedError } from '../../common/sharedError';
+import { invalidTeamError } from '../../common/sharedError';
 
 export const resolvers: ResolverMap = {
   Query: {
@@ -14,7 +14,7 @@ export const resolvers: ResolverMap = {
 
         if (!isTeamValid) {
           return {
-            errors: [invalidTeamError],
+            errors: [invalidTeamError('getUsersByTeam')],
           };
         }
 

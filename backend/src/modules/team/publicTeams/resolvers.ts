@@ -1,6 +1,6 @@
 import { ResolverMap } from '../../../types/RevolserMap';
 import { Team } from '../../../entity';
-import { unexpectedError } from '../../common/unexpectedError';
+import { unexpectedError } from '../../common/sharedError';
 
 export const resolvers: ResolverMap = {
   Query: {

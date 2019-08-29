@@ -3,7 +3,7 @@ import * as bcrypt from 'bcryptjs';
 import { ResolverMap } from '../../../types/RevolserMap';
 import { User, TeamMember, ChannelMember, Channel } from '../../../entity';
 import { duplicateEmailError } from './registerErrors';
-import { unexpectedError } from '../../common/unexpectedError';
+import { unexpectedError } from '../../common/sharedError';
 
 export const resolvers: ResolverMap = {
   Mutation: {
