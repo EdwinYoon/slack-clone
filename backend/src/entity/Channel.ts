@@ -16,6 +16,8 @@ export default class Channel extends BaseEntity {
 
   @Column({ default: true }) isPublic: boolean;
 
+  @Column({ default: 'normal' }) channelType: string;
+
   @ManyToOne(() => Team, team => team.channels, { nullable: false })
   team: Team;
 

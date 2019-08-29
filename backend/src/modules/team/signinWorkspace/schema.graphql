@@ -1,6 +1,7 @@
 type Team {
     id: String!
     name: String!
+    isPublic: Boolean
 }
 
 type SigninWorkspaceResponse {
