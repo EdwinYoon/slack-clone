@@ -5,6 +5,7 @@ import * as Redis from 'ioredis';
 import * as connectRedis from 'connect-redis';
 import * as session from 'express-session';
 import { generateSchemas, ormConnectionHandler } from './utils';
+import { IContext } from './types/customTypes';
 
 const { APP_PORT, SESSION_SECRET, NODE_ENV } = process.env;
 
@@ -18,20 +19,14 @@ export default async () => {
 
   const server = await new GraphQLServer({
     schema,
-    context: ({ request, response }: any) => {
-      return {
-        req: request,
-        res: response,
-        session: request.session,
-        pubsub,
-      };
-    },
+    context: ({ request, response }): any => ({
+      req: request,
+      res: response,
+      session: request.session,
+      pubsub,
+    }),
   });
 
-  console.log(NODE_ENV);
-
-  // Token Validation Middlewares
-  // server.express.use(cookieParser(SESSION_SECRET));
   server.express.use(
     session({
       store: new RedisStore({ client }),

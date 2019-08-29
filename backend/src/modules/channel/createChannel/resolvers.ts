@@ -1,4 +1,4 @@
-import { ResolverMap } from '../../../types/RevolserMap';
+import { ResolverMap, IContext } from '../../../types/customTypes';
 import { Channel, Team } from '../../../entity';
 import {
   duplicateChannelNameError,
@@ -10,7 +10,7 @@ export const resolvers: ResolverMap = {
     createChannel: async (
       _,
       { channelName, isPublic }: GQL.ICreateChannelOnMutationArguments,
-      { session }
+      { session }: IContext
     ) => {
       const team = await Team.findOne({ where: { id: session.teamId } });
 

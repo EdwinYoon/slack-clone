@@ -1,5 +1,5 @@
 import { getManager } from 'typeorm';
-import { ResolverMap } from '../../../types/RevolserMap';
+import { ResolverMap, IContext } from '../../../types/customTypes';
 import { Team, TeamMember, Channel, ChannelMember } from '../../../entity';
 import { invalidChannelNameError } from './createDirectMessageChannelError';
 import {
@@ -17,7 +17,7 @@ export const resolvers: ResolverMap = {
         channelName,
         isPublic,
       }: GQL.ICreateDirectMessageChannelOnMutationArguments,
-      { session }
+      { session }: IContext
     ) => {
       try {
         const { teamId } = session;

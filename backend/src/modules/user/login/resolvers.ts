@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcryptjs';
-import { ResolverMap } from '../../../types/RevolserMap';
+import { ResolverMap, IContext } from '../../../types/customTypes';
 import { User, TeamMember } from '../../../entity';
 import {
   invalidEmailError,
@@ -12,9 +12,8 @@ export const resolvers: ResolverMap = {
     login: async (
       _,
       { email, password }: GQL.ILoginOnMutationArguments,
-      { session }
+      { session }: IContext
     ) => {
-      console.log('from login ', session);
       // Get User from db
       const user = await User.findOne({
         select: ['id', 'email', 'password'],

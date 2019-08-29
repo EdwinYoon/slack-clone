@@ -1,4 +1,4 @@
-import { ResolverMap } from '../../../types/RevolserMap';
+import { ResolverMap } from '../../../types/customTypes';
 import { Team } from '../../../entity';
 import { unexpectedError } from '../../common/sharedError';
 

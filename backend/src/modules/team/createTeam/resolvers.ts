@@ -1,6 +1,6 @@
 import { getManager } from 'typeorm';
 import { Team, Channel } from '../../../entity';
-import { ResolverMap } from '../../../types/RevolserMap';
+import { ResolverMap, IContext } from '../../../types/customTypes';
 import { duplicateTeamNameError } from './createTeamErrors';
 import { unexpectedError } from '../../common/sharedError';
 
@@ -9,7 +9,7 @@ export const resolvers: ResolverMap = {
     createTeam: async (
       _,
       { name, isPublic }: GQL.ICreateTeamOnMutationArguments,
-      { session }
+      { session }: IContext
     ) => {
       const duplicateTeamName = await Team.findOne({ where: { name } });
 

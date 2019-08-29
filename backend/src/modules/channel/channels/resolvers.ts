@@ -1,4 +1,4 @@
-import { ResolverMap } from '../../../types/RevolserMap';
+import { ResolverMap, IContext } from '../../../types/customTypes';
 import { Team, Channel, User, ChannelMember } from '../../../entity';
 import {
   invalidTeamError,
@@ -8,7 +8,7 @@ import {
 
 export const resolvers: ResolverMap = {
   Query: {
-    channels: async (_, __, { session }) => {
+    channels: async (_, __, { session }: IContext) => {
       const { teamId, userId } = session;
       /** Check if team name is exist */
       const team = await Team.findOne({ where: { id: teamId } });

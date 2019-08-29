@@ -1,6 +1,5 @@
 import { getManager } from 'typeorm';
-// import * as bcrypt from 'bcryptjs';
-import { ResolverMap } from '../../../types/RevolserMap';
+import { ResolverMap, IContext } from '../../../types/customTypes';
 import { User, TeamMember, ChannelMember, Channel } from '../../../entity';
 import { duplicateEmailError } from './registerErrors';
 import { unexpectedError } from '../../common/sharedError';
@@ -10,7 +9,7 @@ export const resolvers: ResolverMap = {
     registerToTeam: async (
       _,
       { email, password }: GQL.IRegisterToTeamOnMutationArguments,
-      { session }
+      { session }: IContext
     ) => {
       // Check if the requested email exists
       const duplicateEmail = await User.findOne({ where: { email } });
