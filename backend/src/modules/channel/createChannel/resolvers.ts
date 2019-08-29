@@ -6,26 +6,6 @@ import {
 } from './createChannelError';
 
 export const resolvers: ResolverMap = {
-  Query: {
-    channels: async (_, { teamName }: GQL.IChannelsOnQueryArguments) => {
-      /** Check if team name is exist */
-      const team = await Team.findOne({ where: { name: teamName } });
-
-      if (!team) {
-        return {
-          errors: [wrongTeamNameError],
-        };
-      }
-
-      /** Get channels on that team */
-      const existingChannels = await Channel.createQueryBuilder('channel')
-        .innerJoin('channel.team', 'team')
-        .where('team.id = :id', { id: team.id })
-        .getMany();
-
-      return existingChannels;
-    },
-  },
   Mutation: {
     createChannel: async (
       _,
