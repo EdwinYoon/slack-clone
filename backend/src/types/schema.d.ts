@@ -24,6 +24,7 @@ declare namespace GQL {
     __typename: 'Query';
     channels: Array<IChannel | null>;
     messages: Array<IMessage | null>;
+    publicTeams: IPublicTeamsResponse;
     getUsersByTeam: IGetUsersByTeamResponse;
     hello: string;
   }
@@ -67,6 +68,25 @@ declare namespace GQL {
     email: string;
   }
 
+  interface IPublicTeamsResponse {
+    __typename: 'PublicTeamsResponse';
+    teams: Array<ITeam | null> | null;
+    errors: Array<IError> | null;
+  }
+
+  interface ITeam {
+    __typename: 'Team';
+    id: string;
+    name: string;
+    isPublic: boolean | null;
+  }
+
+  interface IError {
+    __typename: 'Error';
+    path: string;
+    message: string;
+  }
+
   interface IGetUsersByTeamResponse {
     __typename: 'getUsersByTeamResponse';
     users: Array<IUserResponse> | null;
@@ -77,12 +97,6 @@ declare namespace GQL {
     __typename: 'UserResponse';
     userId: string;
     username: string;
-  }
-
-  interface IError {
-    __typename: 'Error';
-    path: string;
-    message: string;
   }
 
   interface IMutation {
@@ -171,12 +185,6 @@ declare namespace GQL {
     __typename: 'SigninWorkspaceResponse';
     team: ITeam | null;
     errors: Array<IError> | null;
-  }
-
-  interface ITeam {
-    __typename: 'Team';
-    id: string;
-    name: string;
   }
 
   interface ILoginResponse {

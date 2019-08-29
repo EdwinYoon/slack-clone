@@ -1,0 +1,8 @@
+type PublicTeamsResponse {
+    teams: [Team!]
+    errors: [Error!]
+}
+
+type Query {
+    publicTeams: PublicTeamsResponse!
+}
