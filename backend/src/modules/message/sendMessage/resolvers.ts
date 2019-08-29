@@ -6,10 +6,11 @@ export const resolvers: ResolverMap = {
   Mutation: {
     sendMessage: async (
       _,
-      { text, userId, teamId, channelId }: GQL.ISendMessageOnMutationArguments,
-      { pubsub }
+      { text, channelId }: GQL.ISendMessageOnMutationArguments,
+      { pubsub, session }
     ) => {
       try {
+        const { userId, teamId } = session;
         const team = await Team.findOne({ where: { id: teamId } });
         const channel = await Channel.findOne({ where: { id: channelId } });
         const user = await User.findOne({ where: { id: userId } });

@@ -27,19 +27,11 @@ declare namespace GQL {
     publicTeams: IPublicTeamsResponse;
     getUsersByTeam: IGetUsersByTeamResponse;
     hello: string;
-  }
-
-  interface IChannelsOnQueryArguments {
-    teamId: string;
-    userId: string;
+    me: IUser | null;
   }
 
   interface IMessagesOnQueryArguments {
     channelId: string;
-  }
-
-  interface IGetUsersByTeamOnQueryArguments {
-    teamId: string;
   }
 
   interface IHelloOnQueryArguments {
@@ -115,17 +107,19 @@ declare namespace GQL {
     createTeam: ICreateTeamResponse;
     signinWorkspace: ISigninWorkspaceResponse;
     login: ILoginResponse;
+
+    /**
+     * registerToTeam(email: String!, password: String!, teamId: String!): RegisterResponse!
+     */
     registerToTeam: IRegisterResponse;
   }
 
   interface ICreateChannelOnMutationArguments {
     channelName: string;
-    teamName: string;
     isPublic: boolean;
   }
 
   interface ICreateDirectMessageChannelOnMutationArguments {
-    teamId: string;
     users: Array<IUsers | null>;
     channelName: string;
     isPublic: boolean;
@@ -133,8 +127,6 @@ declare namespace GQL {
 
   interface ISendMessageOnMutationArguments {
     text: string;
-    userId: string;
-    teamId: string;
     channelId: string;
   }
 
@@ -150,13 +142,11 @@ declare namespace GQL {
   interface ILoginOnMutationArguments {
     email: string;
     password: string;
-    teamId: string;
   }
 
   interface IRegisterToTeamOnMutationArguments {
     email: string;
     password: string;
-    teamId: string;
   }
 
   interface ICreateChannelResponse {

@@ -9,7 +9,8 @@ export const resolvers: ResolverMap = {
   Mutation: {
     registerToTeam: async (
       _,
-      { email, password, teamId }: GQL.IRegisterToTeamOnMutationArguments
+      { email, password }: GQL.IRegisterToTeamOnMutationArguments,
+      { session }
     ) => {
       // Check if the requested email exists
       const duplicateEmail = await User.findOne({ where: { email } });
@@ -39,7 +40,7 @@ export const resolvers: ResolverMap = {
             /** Assign user as team member */
             const teamMember = TeamMember.create({
               userId: user.id,
-              teamId,
+              teamId: session.teamId,
               username: user.email,
             });
             await transactionalEntityManager.save(teamMember);

@@ -13,19 +13,20 @@ export const resolvers: ResolverMap = {
     createDirectMessageChannel: async (
       _,
       {
-        teamId,
         users,
         channelName,
         isPublic,
-      }: GQL.ICreateDirectMessageChannelOnMutationArguments
+      }: GQL.ICreateDirectMessageChannelOnMutationArguments,
+      { session }
     ) => {
       try {
+        const { teamId } = session;
         const isTeamValid = await Team.findOne({ where: { id: teamId } });
 
         /** If the team is not found  */
         if (!isTeamValid) {
           return {
-            errors: [invalidTeamError],
+            errors: [invalidTeamError('createDirectMessageChannel')],
           };
         }
 

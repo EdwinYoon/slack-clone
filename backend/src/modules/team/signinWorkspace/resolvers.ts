@@ -6,7 +6,8 @@ export const resolvers: ResolverMap = {
   Mutation: {
     signinWorkspace: async (
       _,
-      { name }: GQL.ISigninWorkspaceOnMutationArguments
+      { name }: GQL.ISigninWorkspaceOnMutationArguments,
+      { session }
     ) => {
       const team = await Team.findOne({ where: { name } });
 
@@ -15,6 +16,8 @@ export const resolvers: ResolverMap = {
           errors: [noTeamError],
         };
       }
+
+      session.teamId = team.id;
 
       return {
         team,

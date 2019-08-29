@@ -9,9 +9,10 @@ export const resolvers: ResolverMap = {
   Mutation: {
     createChannel: async (
       _,
-      { channelName, teamName, isPublic }: GQL.ICreateChannelOnMutationArguments
+      { channelName, isPublic }: GQL.ICreateChannelOnMutationArguments,
+      { session }
     ) => {
-      const team = await Team.findOne({ where: { name: teamName } });
+      const team = await Team.findOne({ where: { id: session.teamId } });
 
       if (!team) {
         return {

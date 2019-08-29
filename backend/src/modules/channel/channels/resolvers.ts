@@ -8,7 +8,8 @@ import {
 
 export const resolvers: ResolverMap = {
   Query: {
-    channels: async (_, { teamId, userId }: GQL.IChannelsOnQueryArguments) => {
+    channels: async (_, __, { session }) => {
+      const { teamId, userId } = session;
       /** Check if team name is exist */
       const team = await Team.findOne({ where: { id: teamId } });
 

@@ -11,9 +11,10 @@ export const resolvers: ResolverMap = {
   Mutation: {
     login: async (
       _,
-      { email, password, teamId }: GQL.ILoginOnMutationArguments,
-      { req }
+      { email, password }: GQL.ILoginOnMutationArguments,
+      { session }
     ) => {
+      console.log('from login ', session);
       // Get User from db
       const user = await User.findOne({
         select: ['id', 'email', 'password'],
@@ -38,7 +39,7 @@ export const resolvers: ResolverMap = {
       }
 
       const teamMember = TeamMember.findOne({
-        where: { userId: user.id, teamId },
+        where: { userId: user.id, teamId: session.teamId },
       });
 
       if (!teamMember) {
@@ -47,7 +48,8 @@ export const resolvers: ResolverMap = {
         };
       }
 
-      req.session.userId = user.id;
+      // req.session.userId = user.id;
+      session.userId = user.id;
 
       return {
         approved: true,

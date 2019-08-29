@@ -3,17 +3,6 @@ type CreateChannelResponse {
   errors: [Error!]
 }
 
-# type Channel {
-#   id: String!
-#   name: String!
-#   isPublic: Boolean!
-#   team: String!
-# }
-
-# type Query {
-#   channels(teamName: String!): [Channel]!
-# }
-
 type Mutation {
-  createChannel(channelName: String!, teamName: String!, isPublic: Boolean!): CreateChannelResponse!
+  createChannel(channelName: String!, isPublic: Boolean!): CreateChannelResponse!
 }

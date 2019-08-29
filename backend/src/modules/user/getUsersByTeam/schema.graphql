@@ -8,5 +8,5 @@ type getUsersByTeamResponse {
 }
 
 type Query {
-    getUsersByTeam(teamId: String!): getUsersByTeamResponse!
+    getUsersByTeam: getUsersByTeamResponse!
 }

@@ -13,5 +13,5 @@ type ChannelsResponse {
 }
 
 type Query {
-    channels(teamId: String!, userId: String!): ChannelsResponse!
+    channels: ChannelsResponse!
 }

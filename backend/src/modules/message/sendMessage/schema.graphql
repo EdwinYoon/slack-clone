@@ -5,5 +5,5 @@ type SendMessageResponse {
 }
 
 type Mutation {
-  sendMessage(text: String!, userId: String!, teamId: String!, channelId: String!): SendMessageResponse!
+  sendMessage(text: String!, channelId: String!): SendMessageResponse!
 }

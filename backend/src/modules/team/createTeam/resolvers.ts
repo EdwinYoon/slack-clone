@@ -8,7 +8,8 @@ export const resolvers: ResolverMap = {
   Mutation: {
     createTeam: async (
       _,
-      { name, isPublic }: GQL.ICreateTeamOnMutationArguments
+      { name, isPublic }: GQL.ICreateTeamOnMutationArguments,
+      { session }
     ) => {
       const duplicateTeamName = await Team.findOne({ where: { name } });
 
@@ -31,6 +32,8 @@ export const resolvers: ResolverMap = {
             team: newTeam,
           });
           await transactionalEntityManager.save(generalChannel);
+
+          session.teamId = newTeam.id;
         });
 
         /** If everything went well, approve it  */

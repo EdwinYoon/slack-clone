@@ -5,11 +5,9 @@ import { invalidTeamError } from '../../common/sharedError';
 
 export const resolvers: ResolverMap = {
   Query: {
-    getUsersByTeam: async (
-      _,
-      { teamId }: GQL.IGetUsersByTeamOnQueryArguments
-    ) => {
+    getUsersByTeam: async (_, __, { session }) => {
       try {
+        const { teamId } = session;
         const isTeamValid = await Team.findOne({ where: { id: teamId } });
 
         if (!isTeamValid) {
@@ -31,7 +29,7 @@ export const resolvers: ResolverMap = {
         };
       } catch {
         return {
-          errors: [unexpectedError('getTeamByName')],
+          errors: [unexpectedError('getTeamByName!!!!!!!!!!!')],
         };
       }
     },

@@ -10,5 +10,5 @@ type LoginResponse {
 }
 
 type Mutation {
-  login(email: String! password: String! teamId: String!): LoginResponse!
+  login(email: String! password: String!): LoginResponse!
 }
