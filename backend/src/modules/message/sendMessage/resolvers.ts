@@ -1,4 +1,4 @@
-import { ResolverMap } from '../../../types/RevolserMap';
+import { ResolverMap } from '../../../types/customTypes';
 import { Message, Team, Channel, User } from '../../../entity';
 import { NEW_MESSAGE_SUBSCRIPTION } from '../common/constants';
 

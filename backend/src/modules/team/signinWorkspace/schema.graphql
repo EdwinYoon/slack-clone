@@ -10,5 +10,5 @@ type SigninWorkspaceResponse {
 }
 
 type Mutation {
-    signinWorkspace(name: String!): SigninWorkspaceResponse!
+    signinWorkspace(teamName: String!): SigninWorkspaceResponse!
 }

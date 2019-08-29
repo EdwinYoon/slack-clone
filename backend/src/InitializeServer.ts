@@ -5,7 +5,7 @@ import * as Redis from 'ioredis';
 import * as connectRedis from 'connect-redis';
 import * as session from 'express-session';
 import { generateSchemas, ormConnectionHandler } from './utils';
-import { IContext } from './types/customTypes';
+import authMiddleware from './middlewares/authMiddleware';
 
 const { APP_PORT, SESSION_SECRET, NODE_ENV } = process.env;
 
@@ -25,6 +25,7 @@ export default async () => {
       session: request.session,
       pubsub,
     }),
+    middlewares: [authMiddleware],
   });
 
   server.express.use(

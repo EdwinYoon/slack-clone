@@ -1,5 +1,5 @@
 // import { createQueryBuilder } from 'typeorm';
-import { ResolverMap } from '../../../types/RevolserMap';
+import { ResolverMap } from '../../../types/customTypes';
 import { Message } from '../../../entity';
 
 export const resolvers: ResolverMap = {

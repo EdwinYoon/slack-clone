@@ -1,6 +1,6 @@
 import { PubSub } from 'graphql-yoga';
 
-type Resolver = (parent: any, args: any, context: any, info: any) => any;
+export type Resolver = (parent: any, args: any, context: any, info: any) => any;
 
 export interface ResolverMap {
   [key: string]: {
@@ -20,10 +20,10 @@ export interface IContext {
   session: ISession;
 }
 
-export type Middleware = (
+export type IMiddleware = (
   resolve: Resolver,
   parent: any,
   args: any,
   context: IContext,
   info: any
-) => {};
+) => any;

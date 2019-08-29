@@ -12,3 +12,8 @@ export const invalidTeamError = (path: string) => ({
   path,
   message: 'Invalid Team',
 });
+
+export const authError = {
+  path: 'auth',
+  message: 'invalid approach',
+};

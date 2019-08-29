@@ -136,7 +136,7 @@ declare namespace GQL {
   }
 
   interface ISigninWorkspaceOnMutationArguments {
-    name: string;
+    teamName: string;
   }
 
   interface ILoginOnMutationArguments {
