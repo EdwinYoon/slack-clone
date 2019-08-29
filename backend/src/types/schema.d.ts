@@ -22,7 +22,7 @@ declare namespace GQL {
 
   interface IQuery {
     __typename: 'Query';
-    channels: Array<IChannel | null>;
+    channels: IChannelsResponse;
     messages: Array<IMessage | null>;
     publicTeams: IPublicTeamsResponse;
     getUsersByTeam: IGetUsersByTeamResponse;
@@ -30,7 +30,8 @@ declare namespace GQL {
   }
 
   interface IChannelsOnQueryArguments {
-    teamName: string;
+    teamId: string;
+    userId: string;
   }
 
   interface IMessagesOnQueryArguments {
@@ -45,12 +46,25 @@ declare namespace GQL {
     name?: string | null;
   }
 
+  interface IChannelsResponse {
+    __typename: 'ChannelsResponse';
+    channels: Array<IChannel | null> | null;
+    errors: Array<IError> | null;
+  }
+
   interface IChannel {
     __typename: 'Channel';
     id: string;
     name: string;
     isPublic: boolean;
     team: string;
+    channelType: string;
+  }
+
+  interface IError {
+    __typename: 'Error';
+    path: string;
+    message: string;
   }
 
   interface IMessage {
@@ -70,7 +84,7 @@ declare namespace GQL {
 
   interface IPublicTeamsResponse {
     __typename: 'PublicTeamsResponse';
-    teams: Array<ITeam | null> | null;
+    teams: Array<ITeam> | null;
     errors: Array<IError> | null;
   }
 
@@ -79,12 +93,6 @@ declare namespace GQL {
     id: string;
     name: string;
     isPublic: boolean | null;
-  }
-
-  interface IError {
-    __typename: 'Error';
-    path: string;
-    message: string;
   }
 
   interface IGetUsersByTeamResponse {

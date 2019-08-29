@@ -1,0 +1,17 @@
+
+type Channel {
+  id: String!
+  name: String!
+  isPublic: Boolean!
+  team: String!
+  channelType: String!
+}
+
+type ChannelsResponse {
+    channels: [Channel]
+    errors: [Error!]
+}
+
+type Query {
+    channels(teamId: String!, userId: String!): ChannelsResponse!
+}
