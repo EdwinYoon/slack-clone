@@ -1,5 +1,5 @@
 import { getManager } from 'typeorm';
-import * as bcrypt from 'bcryptjs';
+// import * as bcrypt from 'bcryptjs';
 import { ResolverMap } from '../../../types/RevolserMap';
 import { User, TeamMember, ChannelMember, Channel } from '../../../entity';
 import { duplicateEmailError } from './registerErrors';
@@ -15,25 +15,22 @@ export const resolvers: ResolverMap = {
       // Check if the requested email exists
       const duplicateEmail = await User.findOne({ where: { email } });
 
-      // If the email is registered already,
+      // If the email is taken already,
       if (duplicateEmail) {
         return {
           errors: [duplicateEmailError],
         };
       }
 
-      // Hash password
-      const hashedPassword = await bcrypt.hash(password, 10);
-
       try {
-        /**  If one of those create have failed, we rollback to before */
+        /**  If one of those creates failed, rollback to before */
 
         return await getManager().transaction(
           async transactionalEntityManager => {
             // Store user info to DB
             const user = User.create({
               email,
-              password: hashedPassword,
+              password,
             });
             await transactionalEntityManager.save(user);
 
