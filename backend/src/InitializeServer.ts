@@ -15,22 +15,22 @@ export default async () => {
   const pubsub = new PubSub();
 
   const RedisStore = connectRedis(session);
-  const client = new Redis() as any;
+  const redis = new Redis() as any;
 
   const server = await new GraphQLServer({
     schema,
-    context: ({ request, response }): any => ({
-      req: request,
-      res: response,
-      session: request.session,
-      pubsub,
-    }),
+    context: ({ request }) => {
+      if (request && request.session) {
+        return { redis, req: request, session: request.session, pubsub };
+      }
+      return { redis, pubsub };
+    },
     middlewares: [authMiddleware],
   });
 
   server.express.use(
     session({
-      store: new RedisStore({ client }),
+      store: new RedisStore({ client: redis }),
       name: 'qid',
       secret: SESSION_SECRET as string,
       resave: false,

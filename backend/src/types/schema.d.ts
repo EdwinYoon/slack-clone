@@ -65,6 +65,7 @@ declare namespace GQL {
     text: string;
     createdAt: any;
     updatedAt: any;
+    channelId: string;
     user: IUser | null;
   }
 
@@ -200,7 +201,15 @@ declare namespace GQL {
 
   interface ISubscription {
     __typename: 'Subscription';
+
+    /**
+     * newMessage(channelId: String!): Message!
+     */
     newMessage: IMessage;
+  }
+
+  interface INewMessageOnSubscriptionArguments {
+    channelId: string;
   }
 }
 

@@ -1,4 +1,3 @@
-// import { createQueryBuilder } from 'typeorm';
 import { ResolverMap } from '../../../types/customTypes';
 import { Message } from '../../../entity';
 

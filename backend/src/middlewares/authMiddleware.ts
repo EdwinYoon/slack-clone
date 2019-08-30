@@ -8,7 +8,12 @@ const authMiddlewareResolver = async (
   info: any
 ) => {
   /** Require both teamId and userId */
-  if (context.session.teamId && context.session.userId) {
+  if (
+    context &&
+    context.session &&
+    context.session.teamId &&
+    context.session.userId
+  ) {
     return resolve(root, args, context, info);
   }
 

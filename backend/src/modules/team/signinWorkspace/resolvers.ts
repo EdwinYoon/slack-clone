@@ -1,5 +1,5 @@
 import { Team } from '../../../entity';
-import { ResolverMap } from '../../../types/customTypes';
+import { ResolverMap, IContext } from '../../../types/customTypes';
 import { noTeamError } from './signinWorkspaceError';
 
 export const resolvers: ResolverMap = {
@@ -7,11 +7,9 @@ export const resolvers: ResolverMap = {
     signinWorkspace: async (
       _,
       { teamName }: GQL.ISigninWorkspaceOnMutationArguments,
-      { session }
+      { session }: IContext
     ) => {
       const team = await Team.findOne({ where: { name: teamName } });
-
-      console.log(team);
 
       if (!team) {
         return {

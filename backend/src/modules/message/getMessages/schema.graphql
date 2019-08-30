@@ -5,6 +5,7 @@ type Message {
   text: String!
   createdAt: Date!
   updatedAt: Date!
+  channelId: String!
   user: User
 }
 

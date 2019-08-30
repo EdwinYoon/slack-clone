@@ -1,3 +1,4 @@
 type Subscription {
-    newMessage: Message!
+    # newMessage(channelId: String!): Message!
+    newMessage(channelId: String!): Message!
 }

@@ -1,4 +1,4 @@
-import { ResolverMap } from '../../../types/customTypes';
+import { ResolverMap, IContext } from '../../../types/customTypes';
 import { Message, Team, Channel, User } from '../../../entity';
 import { NEW_MESSAGE_SUBSCRIPTION } from '../common/constants';
 
@@ -7,7 +7,7 @@ export const resolvers: ResolverMap = {
     sendMessage: async (
       _,
       { text, channelId }: GQL.ISendMessageOnMutationArguments,
-      { pubsub, session }
+      { pubsub, session }: IContext
     ) => {
       try {
         const { userId, teamId } = session;
@@ -24,6 +24,7 @@ export const resolvers: ResolverMap = {
         const messageResponse = {
           id: createdMessage.id,
           text: createdMessage.text,
+          channelId: createdMessage.channel.id,
           user: {
             id: createdMessage.user.id,
             email: createdMessage.user.email,

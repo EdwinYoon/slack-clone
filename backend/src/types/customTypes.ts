@@ -1,29 +1,27 @@
 import { PubSub } from 'graphql-yoga';
+import { Redis } from 'ioredis';
 
-export type Resolver = (parent: any, args: any, context: any, info: any) => any;
+export interface ISession extends Express.Session {
+  userId?: string;
+  teamId?: string;
+}
+
+export interface IContext {
+  redis: Redis;
+  req: Express.Request;
+  session: ISession | any;
+  pubsub: PubSub;
+}
+
+export type Resolver = (
+  parent: any,
+  args: any,
+  context: IContext | any,
+  info: any
+) => any;
 
 export interface ResolverMap {
   [key: string]: {
     [key: string]: Resolver | { [key: string]: Resolver };
   };
 }
-
-export interface ISession {
-  userId?: string;
-  teamId?: string;
-}
-
-export interface IContext {
-  req: Request;
-  res: Response;
-  pubsub: PubSub;
-  session: ISession;
-}
-
-export type IMiddleware = (
-  resolve: Resolver,
-  parent: any,
-  args: any,
-  context: IContext,
-  info: any
-) => any;
