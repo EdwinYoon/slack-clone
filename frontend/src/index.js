@@ -29,6 +29,7 @@ const wsLink = new WebSocketLink({
   uri: 'ws://localhost:5000/',
   options: {
     reconnect: true,
+    // lazy: true,
   },
 });
 
