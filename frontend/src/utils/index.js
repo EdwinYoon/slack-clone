@@ -1,0 +1,1 @@
+export { ternary } from './general';
