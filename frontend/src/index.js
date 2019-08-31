@@ -6,10 +6,8 @@ import { onError } from 'apollo-link-error';
 import { createHttpLink } from 'apollo-link-http';
 import { ApolloLink, split } from 'apollo-link';
 import { WebSocketLink } from 'apollo-link-ws';
-import { setContext } from 'apollo-link-context';
 import { render } from 'react-dom';
 import { ThemeProvider } from 'styled-components';
-import { getMainDefinition } from 'apollo-utilities';
 
 import { ApolloProvider as ApolloHooksProvider } from '@apollo/react-hooks';
 import App from './routes/App';
@@ -23,13 +21,14 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:5000',
+  credentials: 'include',
 });
 
 const wsLink = new WebSocketLink({
   uri: 'ws://localhost:5000/',
   options: {
     reconnect: true,
-    // lazy: true,
+    lazy: true,
   },
 });
 
