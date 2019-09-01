@@ -21,25 +21,26 @@ const WorkspaceWrapper = styled.div`
  */
 
 const Workspace = ({ match }) => {
-  const { data, loading } = useQuery(GET_CHANNELS, {
-    variables: { teamName: match.params.teamName },
-  });
+  const { data, loading } = useQuery(GET_CHANNELS);
   const [currentChannel, setCurrentChannel] = useState({});
 
   useEffect(() => {
-    if (isEmpty(currentChannel) && data && !loading) {
-      setCurrentChannel(data.channels[0]);
+    if (data && isEmpty(currentChannel) && data.channels) {
+      if (!data.channels.errors) {
+        setCurrentChannel(data.channels.channels[0]);
+      }
     }
   }, [data]);
 
-  if (loading) return <div>Loading...</div>;
   return (
     <WorkspaceWrapper>
-      <SidebarContainer
-        channels={data && data.channels}
-        currentChannel={currentChannel}
-        setCurrentChannel={setCurrentChannel}
-      />
+      {!loading && data && (
+        <SidebarContainer
+          channels={data && data.channels.channels}
+          currentChannel={currentChannel}
+          setCurrentChannel={setCurrentChannel}
+        />
+      )}
       <WorkspaceContainer currentChannel={currentChannel} />
     </WorkspaceWrapper>
   );
