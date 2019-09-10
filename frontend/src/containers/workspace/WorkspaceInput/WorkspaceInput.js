@@ -23,14 +23,10 @@ const InputWrapper = styled.div`
 `;
 
 const WorkspaceInput = ({ currentChannel }) => {
-  const teamId = localStorage.getItem('teamId');
   const [messageText, setMessageText] = useState('');
-  const userId = localStorage.getItem('userId');
   const [sendMessage] = useMutation(SEND_MESSAGE, {
     variables: {
       text: messageText,
-      userId,
-      teamId,
       channelId: currentChannel.id,
     },
   });

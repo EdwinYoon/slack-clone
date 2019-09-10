@@ -12,23 +12,32 @@ const BodyContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  overflow-x: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   background-color: #fff;
 `;
 
-const WorkspaceBody = ({ messages = [] }) => {
+const WorkspaceBody = ({ messages = [], currentChannel }) => {
   const [messageList, setMessageList] = useState([]);
-  const { data } = useSubscription(NEW_MESSAGE_SUBSCRIPTION);
+  const { data } = useSubscription(NEW_MESSAGE_SUBSCRIPTION, {
+    variables: { channelId: (!isEmpty(currentChannel) && currentChannel.id) || '' },
+  });
 
   useEffect(() => {
-    if (messages && !data) {
+    if (messages) {
       setMessageList(messages);
-    } else if (!isEmpty(messages) && data && isEmpty(messageList)) {
-      setMessageList([...messages, data.newMessage]);
-    } else if (!isEmpty(messageList) && data) {
-      setMessageList([...messageList, data.newMessage]);
     }
-  }, [messages, data]);
+  }, [currentChannel, messages]);
+
+  useEffect(() => {
+    if (!isEmpty(messages) && data && isEmpty(messageList)) {
+      setMessageList([...messages, data.newMessage.message]);
+    } else if (!isEmpty(messageList) && data) {
+      if (data.newMessage.channelId === currentChannel.id) {
+        setMessageList([...messageList, data.newMessage.message]);
+      }
+    }
+  }, [data]);
 
   return (
     <BodyContainer id="body_container">
@@ -43,7 +52,7 @@ const WorkspaceBody = ({ messages = [] }) => {
             );
           }
 
-          const previousDay = dayjs(messages[index - 1].createdAt).get('day');
+          const previousDay = dayjs(messageList[index - 1].createdAt).get('day');
           const currentDay = dayjs(message.createdAt).get('day');
 
           return previousDay !== currentDay ? (

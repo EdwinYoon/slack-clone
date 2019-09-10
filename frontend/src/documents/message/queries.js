@@ -3,14 +3,17 @@ import gql from 'graphql-tag';
 export const MESSAGES = gql`
   query($channelId: String!) {
     messages(channelId: $channelId) {
-      id
-      text
-      user {
+      messages {
         id
-        email
+        text
+        user {
+          id
+          email
+        }
+        createdAt
+        updatedAt
       }
-      createdAt
-      updatedAt
+      channelId
     }
   }
 `;

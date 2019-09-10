@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import styled from 'styled-components';
+import { isEmpty } from 'ramda';
 import { useLazyQuery } from '@apollo/react-hooks';
 import { WorkspaceHeader } from '../../../components/workspace';
 import WorkspaceInput from '../WorkspaceInput';
@@ -13,21 +14,33 @@ const Container = styled.div`
 `;
 
 const WorkspaceContainer = ({ currentChannel }) => {
-  const [getMessages, { data, loading }] = useLazyQuery(MESSAGES, {
+  const [getMessages, { data, loading, refetch }] = useLazyQuery(MESSAGES, {
     variables: { channelId: currentChannel.id || '' },
+    skip: !currentChannel,
   });
 
   useEffect(() => {
-    if (!data) getMessages();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
+    if (!isEmpty(currentChannel)) {
+      if (!data) {
+        getMessages();
+      } else {
+        refetch();
+      }
+    }
+  }, [currentChannel]);
 
   return (
     <Container>
-      <WorkspaceHeader currentChannel={currentChannel} />
-      <WorkspaceBody messages={(data && data.messages) || []} />
-      <WorkspaceInput currentChannel={currentChannel} />
+      {data && !loading && (
+        <Fragment>
+          <WorkspaceHeader currentChannel={currentChannel} />
+          <WorkspaceBody
+            messages={(data && data.messages.messages) || []}
+            currentChannel={currentChannel}
+          />
+          <WorkspaceInput currentChannel={currentChannel} />
+        </Fragment>
+      )}
     </Container>
   );
 };

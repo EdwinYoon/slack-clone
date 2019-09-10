@@ -1,16 +1,19 @@
 import gql from 'graphql-tag';
 
 export const NEW_MESSAGE_SUBSCRIPTION = gql`
-  subscription {
-    newMessage {
-      id
-      text
-      user {
+  subscription($channelId: String!) {
+    newMessage(channelId: $channelId) {
+      message {
         id
-        email
+        text
+        user {
+          id
+          email
+        }
+        createdAt
+        updatedAt
       }
-      createdAt
-      updatedAt
+      channelId
     }
   }
 `;

@@ -36,7 +36,7 @@ const ItemFrame = styled.div`
   }
 `;
 
-const SectionItemList = ({ items, currentChannel, setCurrentChannel }) => (
+const SectionItemList = ({ items = [], currentChannel, setCurrentChannel }) => (
   <ItemsContainer>
     {items
       && items.map(({ id, name, isPublic }) => (
