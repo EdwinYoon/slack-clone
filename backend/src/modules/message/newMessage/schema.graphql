@@ -1,4 +1,8 @@
+type NewMessageResponse {
+    message: Message
+    channelId: String
+}
+
 type Subscription {
-    # newMessage(channelId: String!): Message!
-    newMessage(channelId: String!): Message!
+    newMessage(channelId: String!): NewMessageResponse!
 }

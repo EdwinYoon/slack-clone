@@ -14,6 +14,7 @@ export const resolvers: ResolverMap = {
       { email, password }: GQL.ILoginOnMutationArguments,
       { session }: IContext
     ) => {
+      console.log(session);
       // Get User from db
       const user = await User.findOne({
         select: ['id', 'email', 'password'],

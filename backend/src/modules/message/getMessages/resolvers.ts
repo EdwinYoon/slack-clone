@@ -9,7 +9,10 @@ export const resolvers: ResolverMap = {
         relations: ['user'],
       });
 
-      return messages;
+      return {
+        messages,
+        channelId,
+      };
     },
   },
 };

@@ -23,7 +23,7 @@ declare namespace GQL {
   interface IQuery {
     __typename: 'Query';
     channels: IChannelsResponse;
-    messages: Array<IMessage | null>;
+    messages: IMessagesResponse;
     publicTeams: IPublicTeamsResponse;
     getUsersByTeam: IGetUsersByTeamResponse;
     hello: string;
@@ -59,13 +59,22 @@ declare namespace GQL {
     message: string;
   }
 
+  interface IMessagesResponse {
+    __typename: 'MessagesResponse';
+    messages: Array<IMessage | null>;
+    channelId: string | null;
+  }
+
   interface IMessage {
     __typename: 'Message';
     id: string;
     text: string;
     createdAt: any;
     updatedAt: any;
-    channelId: string;
+
+    /**
+     * channelId: String!
+     */
     user: IUser | null;
   }
 
@@ -172,6 +181,7 @@ declare namespace GQL {
     approved: boolean | null;
     errors: Array<IError> | null;
     message: IMessage | null;
+    channelId: string | null;
   }
 
   interface ICreateTeamResponse {
@@ -201,15 +211,17 @@ declare namespace GQL {
 
   interface ISubscription {
     __typename: 'Subscription';
-
-    /**
-     * newMessage(channelId: String!): Message!
-     */
-    newMessage: IMessage;
+    newMessage: INewMessageResponse;
   }
 
   interface INewMessageOnSubscriptionArguments {
     channelId: string;
+  }
+
+  interface INewMessageResponse {
+    __typename: 'NewMessageResponse';
+    message: IMessage | null;
+    channelId: string | null;
   }
 }
 

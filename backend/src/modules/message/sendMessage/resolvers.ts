@@ -21,10 +21,10 @@ export const resolvers: ResolverMap = {
           user,
         });
         const createdMessage = await newMessage.save();
+
         const messageResponse = {
           id: createdMessage.id,
           text: createdMessage.text,
-          channelId: createdMessage.channel.id,
           user: {
             id: createdMessage.user.id,
             email: createdMessage.user.email,
@@ -34,7 +34,10 @@ export const resolvers: ResolverMap = {
         };
 
         pubsub.publish(NEW_MESSAGE_SUBSCRIPTION, {
-          newMessage: messageResponse,
+          newMessage: {
+            message: messageResponse,
+            channelId: createdMessage.channel.id,
+          },
         });
 
         return {

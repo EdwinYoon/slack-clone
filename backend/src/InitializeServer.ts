@@ -20,7 +20,7 @@ export default async () => {
   const server = await new GraphQLServer({
     schema,
     context: ({ request }) => {
-      if (request && request.session) {
+      if (request) {
         return { redis, req: request, session: request.session, pubsub };
       }
       return { redis, pubsub };
