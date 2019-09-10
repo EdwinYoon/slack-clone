@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/react-hooks';
 import styled from 'styled-components';
 import { SEND_MESSAGE } from '../../../documents/message';
@@ -50,3 +51,12 @@ const WorkspaceInput = ({ currentChannel }) => {
 };
 
 export default WorkspaceInput;
+
+WorkspaceInput.propTypes = {
+  currentChannel: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    isPublic: PropTypes.bool,
+    channelType: PropTypes.string,
+  }).isRequired,
+};

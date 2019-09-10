@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import { useStickyTracer } from '../../../hooks';
 
@@ -50,3 +51,16 @@ const StickyHeader = ({ message }) => {
 };
 
 export default StickyHeader;
+
+StickyHeader.propTypes = {
+  message: PropTypes.shape({
+    createdAt: PropTypes.string,
+    id: PropTypes.string,
+    text: PropTypes.string,
+    updatedAt: PropTypes.string,
+    user: PropTypes.shape({
+      email: PropTypes.string,
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+};

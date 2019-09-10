@@ -20,7 +20,7 @@ const WorkspaceWrapper = styled.div`
  *  come up with better idea!!!
  */
 
-const Workspace = ({ match }) => {
+const Workspace = () => {
   const { data, loading } = useQuery(GET_CHANNELS);
   const [currentChannel, setCurrentChannel] = useState({});
 

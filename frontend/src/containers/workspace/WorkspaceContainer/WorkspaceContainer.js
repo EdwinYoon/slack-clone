@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { isEmpty } from 'ramda';
 import { useLazyQuery } from '@apollo/react-hooks';
 import { WorkspaceHeader } from '../../../components/workspace';
@@ -46,3 +47,12 @@ const WorkspaceContainer = ({ currentChannel }) => {
 };
 
 export default WorkspaceContainer;
+
+WorkspaceContainer.propTypes = {
+  currentChannel: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    isPublic: PropTypes.bool,
+    channelType: PropTypes.string,
+  }).isRequired,
+};

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { useSubscription } from '@apollo/react-hooks';
 import { isEmpty } from 'ramda';
 import dayjs from 'dayjs';
@@ -69,3 +70,24 @@ const WorkspaceBody = ({ messages = [], currentChannel }) => {
 };
 
 export default WorkspaceBody;
+
+WorkspaceBody.propTypes = {
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      createdAt: PropTypes.string,
+      id: PropTypes.string,
+      text: PropTypes.string,
+      updatedAt: PropTypes.string,
+      user: PropTypes.shape({
+        email: PropTypes.string,
+        id: PropTypes.string,
+      }),
+    }),
+  ).isRequired,
+  currentChannel: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    isPublic: PropTypes.bool,
+    channelType: PropTypes.string,
+  }).isRequired,
+};

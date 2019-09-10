@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useMutation } from '@apollo/react-hooks';
 import { USER_LOGIN } from '../../../documents/user';
@@ -108,3 +109,8 @@ const SigninUserForm = ({ setWorkspaceRedirection, teamName }) => {
 };
 
 export default SigninUserForm;
+
+SigninUserForm.propTypes = {
+  setWorkspaceRedirection: PropTypes.func.isRequired,
+  teamName: PropTypes.string.isRequired,
+};

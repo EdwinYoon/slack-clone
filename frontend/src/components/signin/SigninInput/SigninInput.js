@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const InputWrapper = styled.div`
@@ -71,18 +72,16 @@ const Input = ({
   value,
   setValue,
   onKeyPress,
-  inputRef,
   condition,
   labelText,
   type,
-  padding,
+  padding = '',
   placeholder,
 }) => (
   <InputWrapper padding={padding}>
     <div>{labelText}</div>
     <input
       type={type}
-      ref={inputRef}
       className={condition ? 'result_warning' : ''}
       placeholder={placeholder}
       value={value}
@@ -93,3 +92,14 @@ const Input = ({
 );
 
 export default Input;
+
+Input.propTypes = {
+  value: PropTypes.string.isRequired,
+  setValue: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func.isRequired,
+  condition: PropTypes.bool.isRequired,
+  labelText: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  padding: PropTypes.string.isRequired,
+};

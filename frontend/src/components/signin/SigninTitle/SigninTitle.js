@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const SigninTitleWrapper = styled.div`
@@ -59,3 +60,8 @@ const SigninTitle = ({ title, subTitle }) => (
 );
 
 export default SigninTitle;
+
+SigninTitle.propTypes = {
+  title: PropTypes.string.isRequired,
+  subTitle: PropTypes.string.isRequired,
+};

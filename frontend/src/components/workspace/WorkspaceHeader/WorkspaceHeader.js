@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import MessageSearch from '../MessageSearch';
 
@@ -63,3 +64,11 @@ const WorkspaceHeader = ({ currentChannel }) => {
 };
 
 export default WorkspaceHeader;
+
+WorkspaceHeader.propTypes = {
+  currentChannel: PropTypes.shape({
+    id: PropTypes.string,
+    isPublic: PropTypes.bool,
+    name: PropTypes.string,
+  }).isRequired,
+};

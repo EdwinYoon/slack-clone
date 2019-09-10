@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 
 const shaker = keyframes`
@@ -153,3 +154,10 @@ const SigninButton = ({
   </SigninButtonWrapper>
 );
 export default SigninButton;
+
+SigninButton.propTypes = {
+  condition: PropTypes.bool.isRequired,
+  onClickHandler: PropTypes.func.isRequired,
+  displayText: PropTypes.string.isRequired,
+  errorText: PropTypes.string.isRequired,
+};
