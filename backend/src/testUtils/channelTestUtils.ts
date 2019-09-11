@@ -1,6 +1,6 @@
-import { request } from 'graphql-request';
+import { testRequest } from './common';
 
-export async function createChannel(
+export function createChannel(
   channelName: string,
   teamName: string,
   isPublic: boolean = true
@@ -17,10 +17,5 @@ export async function createChannel(
     } 
   `;
 
-  const response = await request(
-    process.env.TEST_HOST as string,
-    createChannelRequest
-  );
-
-  return response;
+  return testRequest(createChannelRequest);
 }

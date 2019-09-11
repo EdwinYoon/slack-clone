@@ -1,6 +1,7 @@
 import { Connection } from 'typeorm';
 import * as faker from 'faker';
-import { ormConnectionHandler, createTeam } from '../../../utils';
+import { ormConnectionHandler } from '../../../utils';
+import { createTeam } from '../../../testUtils';
 import { Team } from '../../../entity';
 import { duplicateTeamNameError } from './createTeamErrors';
 

@@ -1,10 +1,7 @@
 import { Connection } from 'typeorm';
 import * as faker from 'faker';
-import {
-  ormConnectionHandler,
-  createTeam,
-  signinWorkspace,
-} from '../../../utils';
+import { ormConnectionHandler } from '../../../utils';
+import { createTeam, signinWorkspace } from '../../../testUtils';
 import { Team } from '../../../entity';
 import { noTeamError } from './signinWorkspaceError';
 

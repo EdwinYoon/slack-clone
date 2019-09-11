@@ -1,7 +1,4 @@
-import { request } from 'graphql-request';
-
-const testRequest = async queryString =>
-  request(process.env.TEST_HOST as string, queryString);
+import { testRequest } from './common';
 
 export function createTeam(name: string, isPublic: boolean) {
   const createTeamMutation = `
@@ -19,7 +16,7 @@ export function createTeam(name: string, isPublic: boolean) {
   return testRequest(createTeamMutation);
 }
 
-export async function publicTeams() {
+export function publicTeams() {
   const publicTeamsQuery = `
     query {
       publicTeams {

@@ -1,8 +1,8 @@
 import { Connection } from 'typeorm';
 import * as faker from 'faker';
-import { ormConnectionHandler, createTeam } from '../../../utils';
+import { ormConnectionHandler } from '../../../utils';
+import { createTeam, publicTeams } from '../../../testUtils';
 import { Team } from '../../../entity';
-import { publicTeams } from '../../../utils/teamTestUtils';
 import { unexpectedError } from '../../common/sharedError';
 
 faker.seed(Date.now() + 5);
