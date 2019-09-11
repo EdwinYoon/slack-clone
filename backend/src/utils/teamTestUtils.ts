@@ -1,9 +1,9 @@
 import { request } from 'graphql-request';
 
-export async function createTeam(name: string) {
+export async function createTeam(name: string, isPublic: boolean) {
   const createTeamMutation = `
     mutation {
-      createTeam(name: "${name}") {
+      createTeam(name: "${name}", isPublic: ${isPublic}) {
         approved
         errors {
           path

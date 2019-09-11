@@ -16,7 +16,7 @@ afterAll(async () => conn.close());
 describe('Create Team', () => {
   test('Expected to create a new team', async () => {
     /** Create a new team */
-    const newTeam = await createTeam(coolTeamName);
+    const newTeam = await createTeam(coolTeamName, true);
 
     /** expected response */
     expect(newTeam).toEqual({ createTeam: { approved: true, errors: null } });
@@ -27,7 +27,7 @@ describe('Create Team', () => {
   });
   test('Expected to check duplicate team name', async () => {
     /** Duplicate name which created once */
-    const duplicateNameTeamCreation = await createTeam(coolTeamName);
+    const duplicateNameTeamCreation = await createTeam(coolTeamName, true);
 
     /** Expected */
     expect(duplicateNameTeamCreation).toEqual({
