@@ -11,8 +11,11 @@ import { TeamMember, Channel, Message } from '.';
 export default class Team extends BaseEntity {
   @PrimaryGeneratedColumn('uuid') id: string;
 
-  @Column() name: string;
-  @Column() isPublic: boolean;
+  @Column()
+  name: string;
+
+  @Column()
+  isPublic: boolean;
 
   @OneToMany(() => Channel, channel => channel.team)
   channels: Channel[];

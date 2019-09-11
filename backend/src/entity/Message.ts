@@ -16,7 +16,9 @@ export default class Message extends BaseEntity {
   @Column('text') text: string;
 
   @CreateDateColumn() createdAt: Date;
+
   @UpdateDateColumn() updatedAt: Date;
+
   @ManyToOne(() => Team, team => team.messages, { nullable: false })
   team: Team;
 
