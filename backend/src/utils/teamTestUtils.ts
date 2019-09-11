@@ -20,3 +20,28 @@ export async function createTeam(name: string, isPublic: boolean) {
 
   return response;
 }
+
+export async function publicTeams() {
+  const publicTeamsQuery = `
+    query {
+      publicTeams {
+        teams {
+          id
+          name
+          isPublic
+        }
+        errors {
+          message
+          path
+        }
+      }
+    }
+  `;
+
+  const response = await request(
+    process.env.TEST_HOST as string,
+    publicTeamsQuery
+  );
+
+  return response;
+}

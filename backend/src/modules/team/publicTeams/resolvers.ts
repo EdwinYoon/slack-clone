@@ -7,7 +7,7 @@ export const resolvers: ResolverMap = {
     publicTeams: async () => {
       const publicTeams = await Team.find({ where: { isPublic: true } });
 
-      if (!publicTeams) {
+      if (publicTeams.length === 0) {
         return {
           errors: [unexpectedError('publicTeams')],
         };
