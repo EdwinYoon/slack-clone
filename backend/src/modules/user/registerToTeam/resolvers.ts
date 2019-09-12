@@ -1,7 +1,7 @@
 import { getManager } from 'typeorm';
 import { ResolverMap, IContext } from '../../../types/customTypes';
 import { User, TeamMember, ChannelMember, Channel } from '../../../entity';
-import { duplicateEmailError } from './registerErrors';
+import { alreadyRegisteredUserError } from './registerToTeamErrors';
 import { unexpectedError } from '../../common/sharedError';
 
 export const resolvers: ResolverMap = {
@@ -11,13 +11,17 @@ export const resolvers: ResolverMap = {
       { email, password }: GQL.IRegisterToTeamOnMutationArguments,
       { session }: IContext
     ) => {
-      // Check if the requested email exists
-      const duplicateEmail = await User.findOne({ where: { email } });
+      /** Check if the given email is already registered */
+      const isRegistered = await TeamMember.createQueryBuilder('teamMember')
+        .innerJoin('teamMember.user', 'user')
+        .where('teamMember.teamId = :id', { id: session.teamId })
+        .andWhere('user.email = :email', { email })
+        .getOne();
 
       // If the email is taken already,
-      if (duplicateEmail) {
+      if (isRegistered) {
         return {
-          errors: [duplicateEmailError],
+          errors: [alreadyRegisteredUserError],
         };
       }
 
