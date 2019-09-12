@@ -1,9 +1,9 @@
 import { testRequest } from './common';
 
-export function register(email: string, password: string, username: string) {
+export function registerToTeam(email: string, password: string) {
   const registerMutation = `
     mutation {
-      register(email: "${email}", password: "${password}", username: "${username}") {
+      registerToTeam(email: "${email}", password: "${password}") {
         approved
         errors {
           path
