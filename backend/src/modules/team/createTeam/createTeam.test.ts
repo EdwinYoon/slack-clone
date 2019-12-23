@@ -12,7 +12,9 @@ let conn: Connection;
 beforeAll(async () => {
   conn = await ormConnectionHandler();
 });
-afterAll(async () => conn.close());
+afterAll(async () => {
+  conn.close();
+});
 
 describe('Create Team', () => {
   test('Expected to create a new team', async () => {

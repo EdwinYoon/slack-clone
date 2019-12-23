@@ -13,7 +13,9 @@ let conn: Connection;
 beforeAll(async () => {
   conn = await ormConnectionHandler();
 });
-afterAll(async () => conn.close());
+afterAll(async () => {
+  conn.close();
+});
 
 describe('Public Team Query', () => {
   test('Expected to return errors when there is no public team', async () => {

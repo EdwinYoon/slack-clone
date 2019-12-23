@@ -34,4 +34,7 @@ tmp/
 .DB_Store
 
 *.lock
+*lock.json
+
+*.log
 

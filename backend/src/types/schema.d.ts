@@ -71,10 +71,6 @@ declare namespace GQL {
     text: string;
     createdAt: any;
     updatedAt: any;
-
-    /**
-     * channelId: String!
-     */
     user: IUser | null;
   }
 
@@ -117,10 +113,6 @@ declare namespace GQL {
     createTeam: ICreateTeamResponse;
     signinWorkspace: ISigninWorkspaceResponse;
     login: ILoginResponse;
-
-    /**
-     * registerToTeam(email: String!, password: String!, teamId: String!): RegisterResponse!
-     */
     registerToTeam: IRegisterResponse;
   }
 
@@ -181,7 +173,6 @@ declare namespace GQL {
     approved: boolean | null;
     errors: Array<IError> | null;
     message: IMessage | null;
-    channelId: string | null;
   }
 
   interface ICreateTeamResponse {

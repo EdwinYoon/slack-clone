@@ -1,64 +1,58 @@
 import { Connection } from 'typeorm';
 import * as faker from 'faker';
-import {
-  ormConnectionHandler,
-  createChannel,
-  createTeam,
-} from '../../../utils';
+import { ormConnectionHandler } from '../../../utils';
+import { TestClient } from '../../../testUtils';
 import { Channel } from '../../../entity';
-import {
-  wrongTeamNameError,
-  duplicateChannelNameError,
-} from './createChannelError';
+import { duplicateChannelNameError } from './createChannelError';
 
 faker.seed(Date.now());
-const coolTeamName = `${faker.name.findName()}-${faker.name.findName()}`;
+const teamName = `${faker.name.findName()}-${faker.name.findName()}`;
 const coolChannelName = `${faker.name.findName()}_${faker.name.findName()}`;
+const email = `${faker.internet.email}`;
+const password = `${faker.internet.password}`;
+const client = new TestClient(process.env.TEST_HOST as string);
 
 let conn: Connection;
-beforeAll(async () => {
-  conn = await ormConnectionHandler();
-});
-afterAll(async () => conn.close());
-
 describe('Create Channel', () => {
+  beforeAll(async () => {
+    conn = await ormConnectionHandler();
+  });
+
   test('Expected to create a new Channel', async () => {
     /** Create a team to test channel operations */
-    const testTeam = await createTeam(coolTeamName);
-    expect(testTeam).toEqual({ createTeam: { approved: true, errors: null } });
+    await client.createTeam(teamName);
+    await client.signinWorkspace(teamName);
+    await client.registerToTeam(email, password);
 
     /** Create a channel, expected to be successful */
-    const channel = await createChannel(coolChannelName, coolTeamName);
+    const channel = await client.createChannel(coolChannelName, true);
 
-    expect(channel).toEqual({
+    expect(channel.data).toEqual({
       createChannel: { approved: true, errors: null },
     });
 
-    const confirmChannel = await Channel.find({ name: coolChannelName });
-    expect(confirmChannel).toHaveLength(1);
-  });
+    const confirmChannel = await Channel.findOne({ name: coolChannelName });
 
-  test('Expected to show WrongTeamNameError', async () => {
-    /** Show Error if team name is not exist */
-    const channel = await createChannel(
-      `${coolChannelName}-another`,
-      `${coolTeamName}-wrong`
-    );
-
-    expect(channel).toEqual({
-      createChannel: { approved: null, errors: [wrongTeamNameError] },
+    expect(confirmChannel).toMatchObject({
+      name: coolChannelName,
+      isPublic: true,
+      channelType: 'normal',
     });
   });
 
   test('Expected to show duplicateChannelNameError', async () => {
     /** coolChannelName is used on previous test, so it should be an error */
-    const anotherChannelCreation = await createChannel(
+    const anotherChannelCreation = await client.createChannel(
       coolChannelName,
-      coolTeamName
+      true
     );
 
-    expect(anotherChannelCreation).toEqual({
+    expect(anotherChannelCreation.data).toEqual({
       createChannel: { approved: null, errors: [duplicateChannelNameError] },
     });
+  });
+
+  afterAll(async () => {
+    conn.close();
   });
 });

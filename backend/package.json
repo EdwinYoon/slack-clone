@@ -43,11 +43,12 @@
       "merge-graphql-schemas": "^1.5.8",
       "pg": "^7.3.0",
       "reflect-metadata": "^0.1.10",
+      "request-promise": "^4.2.4",
       "typeorm": "0.2.17"
    },
    "scripts": {
       "start": "NODE_ENV=development nodemon --files --exec ts-node src/index.ts",
-      "test": "NODE_ENV=test TS_NODE_FILES=true jest --forceExit --detectOpenHandles",
+      "test": "NODE_ENV=test TS_NODE_FILES=true jest  --forceExit --detectOpenHandles",
       "create-types": "ts-node -r dotenv-safe --files src/scripts/createTypes.ts"
    },
    "jest": {

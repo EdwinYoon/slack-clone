@@ -18,7 +18,7 @@ export default class Team extends BaseEntity {
   isPublic: boolean;
 
   @OneToMany(() => Channel, channel => channel.team)
-  channels: Channel[];
+  channel: Channel[];
 
   @OneToMany(() => Message, message => message.team)
   messages: Message[];

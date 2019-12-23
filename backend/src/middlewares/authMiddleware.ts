@@ -30,7 +30,7 @@ const teamContextMiddleware = async (
   info: any
 ) => {
   /** Only require teamId */
-  if (context.session.teamId) {
+  if (context && context.session && context.session.teamId) {
     return resolve(root, args, context, info);
   }
 

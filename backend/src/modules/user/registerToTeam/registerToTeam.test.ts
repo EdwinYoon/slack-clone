@@ -12,17 +12,17 @@ const failedTeamName = `${faker.fake.name}`;
 const teamName = `${faker.name.firstName}`;
 const email = faker.internet.email();
 const password = faker.internet.password();
-let client;
 
+const client = new TestClient(process.env.TEST_HOST as string);
 let conn: Connection;
+
 beforeAll(async () => {
   conn = await ormConnectionHandler();
-  client = new TestClient(process.env.TEST_HOST as string);
 });
-afterAll(() => conn.close());
+afterAll(async () => conn.close());
 
 describe('User Register to a team', () => {
-  it('Expected to be failed to register user due to absence of session values', async () => {
+  test('Expected to be failed to register user due to absence of session values', async () => {
     await createTeam(failedTeamName, true);
     const registerWithoutTeamId = await registerToTeam(email, password);
 
@@ -35,8 +35,8 @@ describe('User Register to a team', () => {
     });
   });
 
-  it('Expected to register a user to a team', async () => {
-    await client.createdTeam(
+  test('Expected to register a user to a team', async () => {
+    await client.createTeam(
       teamName
     ); /** Create Team to signin. Also, required to get session.teamId */
 
@@ -53,7 +53,7 @@ describe('User Register to a team', () => {
     }
   });
 
-  it('Expected to be failed to registerToTeam, because it is registered already', async () => {
+  test('Expected to be failed to registerToTeam, because it is registered already', async () => {
     /**
      * It already has teamId session value at this point,
      * therefore, it must respond with errors if we try to register

@@ -63,6 +63,7 @@ export const resolvers: ResolverMap = {
 
             await transactionalEntityManager.save(newChannelMember);
 
+            session.userId = teamMember.userId;
             /** If everything went well, approve it  */
             return {
               approved: true,

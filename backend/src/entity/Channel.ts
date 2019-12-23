@@ -18,7 +18,7 @@ export default class Channel extends BaseEntity {
 
   @Column({ default: 'normal' }) channelType: string;
 
-  @ManyToOne(() => Team, team => team.channels, { nullable: false })
+  @ManyToOne(() => Team, team => team.channel)
   team: Team;
 
   @OneToMany(() => Message, message => message.channel)

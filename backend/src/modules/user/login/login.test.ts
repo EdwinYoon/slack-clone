@@ -2,44 +2,57 @@ import { Connection } from 'typeorm';
 import * as faker from 'faker';
 import { ormConnectionHandler } from '../../../utils';
 import { invalidEmailError, invalidPasswordError } from './loginErrors';
-import { register, login } from '../../../utils';
+import { TestClient } from '../../../testUtils';
 
 faker.seed(Date.now() + 5);
+const teamName = faker.name.firstName();
 const email = faker.internet.email();
 const password = faker.internet.password();
-const username = faker.name.findName();
 
+const client = new TestClient(process.env.TEST_HOST as string);
 let conn: Connection;
-beforeAll(async () => {
-  conn = await ormConnectionHandler();
-});
-afterAll(() => conn.close());
+
+jest.setTimeout(5 * 60 * 1000);
 
 describe('User Login', () => {
+  beforeAll(async () => {
+    console.log('called');
+    conn = await ormConnectionHandler();
+    console.log('after called');
+  });
   test('Expected a user to login successfully.', async () => {
-    await register(email, password, username);
-    const loginRes = await login(email, password);
+    /** pre-required to have session.teamId */
+    console.log('-----connection--------');
+    console.log(conn);
+    console.log('-----connection--------');
 
-    expect(loginRes).toEqual({ login: { approved: true, errors: null } });
+    /** Another client for testing purpose. */
+    const clientTwo = new TestClient(process.env.TEST_HOST as string);
+    await clientTwo.createTeam(teamName);
+    await clientTwo.registerToTeam(email, password);
+
+    await client.signinWorkspace(teamName);
+    const loginRes = await client.login(email, password);
+
+    expect(loginRes.data).toEqual({ login: { approved: true, errors: null } });
   });
 
-  test('Expected invalid email error', async () => {
-    await register(email, password, username);
-    const badEmail = `11${email}`;
-    const response = await login(badEmail, password);
+  test('Expected invalid email error response.', async () => {
+    const badEmail = `${email}${faker.random.number}`;
+    const response = await client.login(badEmail, password);
 
-    expect(response).toEqual({
+    expect(response.data).toEqual({
       login: { approved: null, errors: [invalidEmailError] },
     });
   });
 
   test('Expected invalid password error', async () => {
-    await register(email, password, username);
-    const badPassword = `11${password}`;
-    const response = await login(email, badPassword);
+    const badPassword = `${password}${faker.random.word}`;
+    const response = await client.login(email, badPassword);
 
-    expect(response).toEqual({
+    expect(response.data).toEqual({
       login: { approved: null, errors: [invalidPasswordError] },
     });
   });
+  afterAll(async () => conn.close());
 });

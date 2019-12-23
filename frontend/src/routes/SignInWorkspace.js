@@ -17,7 +17,7 @@ const SignInWorkspace = () => {
     variables: { teamName },
   });
 
-  const inputRef = useRef(null);
+  // const inputRef = useRef(null);
 
   useEffect(() => {
     if (data && !data.signinWorkspace.errors) {
@@ -31,7 +31,7 @@ const SignInWorkspace = () => {
       }
     } else if (data && data.signinWorkspace.errors) {
       setTeamName('');
-      inputRef.current.focus();
+      // inputRef.current.focus();
     }
   }, [data]);
 
@@ -55,7 +55,7 @@ const SignInWorkspace = () => {
           <SigninTitle title="Sign in to your workpsace" subTitle="Enter your team name" />
           <SigninInput
             value={teamName}
-            inputRef={inputRef}
+            // inputRef={inputRef}
             setValue={setTeamName}
             onKeyPress={onKeyPress}
             condition={data && data.signinWorkspace.errors && !teamName}

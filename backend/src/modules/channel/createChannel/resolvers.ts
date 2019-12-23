@@ -24,21 +24,22 @@ export const resolvers: ResolverMap = {
       const existingChannels = await Channel.createQueryBuilder('channel')
         .innerJoin('channel.team', 'team')
         .where('team.id = :id', { id: team.id })
-        .getMany();
+        .andWhere('channel.name = :name', { name: channelName })
+        .getOne();
 
-      if (!existingChannels) {
+      if (existingChannels) {
         return {
           errors: [duplicateChannelNameError],
         };
       }
 
       /** Otherwise, assume that there is no problem */
-      const newChannel = Channel.create({
+      const newChannel = await Channel.create({
         name: channelName,
         isPublic,
         team,
-      });
-      await newChannel.save();
+      }).save();
+      console.log(newChannel);
 
       return {
         approved: true,

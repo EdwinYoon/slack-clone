@@ -1,4 +1,4 @@
-import 'reflect-metadata';
+// import 'reflect-metadata';
 import { GraphQLServer, PubSub } from 'graphql-yoga';
 require('dotenv-safe').config();
 import * as Redis from 'ioredis';

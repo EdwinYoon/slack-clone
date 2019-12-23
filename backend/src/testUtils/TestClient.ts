@@ -17,7 +17,7 @@ export default class TestClient {
     };
   }
 
-  createdTeam(teamName: string) {
+  createTeam(teamName: string) {
     return rp.post(this.url, {
       ...this.options,
       body: {
@@ -66,6 +66,44 @@ export default class TestClient {
         query: `
           mutation {
             registerToTeam(email: "${email}", password: "${password}") {
+              approved
+              errors {
+                path
+                message
+              }
+            }
+          } 
+        `,
+      },
+    });
+  }
+
+  login(email: string, password: string) {
+    return rp.post(this.url, {
+      ...this.options,
+      body: {
+        query: `
+          mutation {
+            login(email: "${email}", password: "${password}") {
+              approved
+              errors {
+                path
+                message 
+              }
+            }
+          }
+        `,
+      },
+    });
+  }
+
+  createChannel(channelName: string, isPublic: boolean) {
+    return rp.post(this.url, {
+      ...this.options,
+      body: {
+        query: `
+          mutation {
+            createChannel(channelName: "${channelName}", isPublic: ${isPublic}) {
               approved
               errors {
                 path

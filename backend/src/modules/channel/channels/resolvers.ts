@@ -29,12 +29,14 @@ export const resolvers: ResolverMap = {
 
       /** Get channels on that team */
       const userChannels = await Channel.createQueryBuilder('c')
-        .leftJoin('c.team', 'team')
+        // .leftJoin('c.team', 'team')
+        .innerJoin(Team, 'team', 'team.id = c.team')
         .innerJoin(ChannelMember, 'cm', 'cm.channelId = c.id')
-        .where('team.id = :tid', { tid: teamId })
-        .andWhere('cm.userId = :uid', { uid: userId })
+        .where('cm.userId = :uid', { uid: userId })
         .getMany();
+      // .where('team.id = :tid', { tid: teamId })
 
+      console.log(userChannels);
       if (!userChannels) {
         return {
           errors: [unexpectedError('channels')],
